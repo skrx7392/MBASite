@@ -26,7 +26,8 @@ namespace MBASite.Controllers
                 id.Id = student.Id;
                 Students.Add(id);
             }
-            return PartialView(Students);
+            
+            return View(Students);
         }
     }
 }
