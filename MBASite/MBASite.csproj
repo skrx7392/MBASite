@@ -124,6 +124,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EditStudentController.cs" />
+    <Compile Include="Controllers\EditStudentDetailsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ViewStudentDetailsController.cs" />
@@ -166,6 +167,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Login\LoginPage.cshtml" />
     <Content Include="Views\EditStudent\StudentsList.cshtml" />
+    <Content Include="Views\EditStudentDetails\EditStudentDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
