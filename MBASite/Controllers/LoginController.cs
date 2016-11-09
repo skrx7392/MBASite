@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MBASite.ViewModels;
+using MBASite.Models;
 using System.Security.Cryptography;
 using System.Text;
 using MBASite.Helpers;
@@ -18,12 +19,10 @@ namespace MBASite.Controllers
     public class LoginController : Controller
     {
         LoginDetails details;
-        string role;
-
+        
         public LoginController()
         {
             details = new LoginDetails();
-            role = string.Empty;
         }
         
         // GET: Login
@@ -96,7 +95,19 @@ namespace MBASite.Controllers
 
         private void CreateCookie(LoginDetails details)
         {
-            role = GetRoleOfUser(int.Parse(details.Username));
+            StaticVariables.Role = GetRoleOfUser(int.Parse(details.Username));
+            StaticVariables.StudentDetails = AsyncEmulator.EmulateAsync<StudentDetails>("getStudents");
+            if(StaticVariables.Role.Equals("Advisor"))
+            {
+                StaticVariables.AdvisorDetails = AsyncEmulator.EmulateAsync<AdvisorDetails>("getAdvisors");
+                StaticVariables.Programs = AsyncEmulator.EmulateAsync<Programs>("getPrograms");
+            }
+            if(StaticVariables.Role.Equals("Director"))
+            {
+                StaticVariables.AdvisorDetails = AsyncEmulator.EmulateAsync<AdvisorDetails>("getAdvisors");
+                StaticVariables.Programs = AsyncEmulator.EmulateAsync<Programs>("getPrograms");
+                StaticVariables.Courses = AsyncEmulator.EmulateAsync<Models.Course>("getCourses");
+            }
             FormsAuthentication.SetAuthCookie(details.Username.ToString(), false);
         }
 
