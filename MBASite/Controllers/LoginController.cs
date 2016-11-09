@@ -18,10 +18,12 @@ namespace MBASite.Controllers
     public class LoginController : Controller
     {
         LoginDetails details;
+        string role;
 
         public LoginController()
         {
             details = new LoginDetails();
+            role = string.Empty;
         }
         
         // GET: Login
@@ -57,12 +59,12 @@ namespace MBASite.Controllers
             }
         }
 
-        public bool AuthenticateUser(LoginDetails details)
+        private bool AuthenticateUser(LoginDetails details)
         {
             string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
             string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["login"];
             LoginStatus login = new LoginStatus();
-            login.ID = details.Username;
+            login.ID = int.Parse(details.Username);
             login.Password = details.Password;
             using (var client = new HttpClient())
             {
@@ -76,7 +78,7 @@ namespace MBASite.Controllers
             }
         }
 
-        public string GetRoleOfUser(int id)
+        private string GetRoleOfUser(int id)
         {
             string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
             string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["GetUserRole"] + id.ToString();
@@ -94,7 +96,7 @@ namespace MBASite.Controllers
 
         private void CreateCookie(LoginDetails details)
         {
-            string role = GetRoleOfUser(details.Username);
+            role = GetRoleOfUser(int.Parse(details.Username));
             FormsAuthentication.SetAuthCookie(details.Username.ToString(), false);
         }
 

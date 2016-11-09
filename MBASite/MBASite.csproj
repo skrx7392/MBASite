@@ -115,7 +115,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Web.config" />
-    <Content Include="Views\Login\LoginPage.cshtml" />
     <Content Include="Views\Login\LogOff.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +129,7 @@
     </Compile>
     <Compile Include="Helpers\AsyncEmulator.cs" />
     <Compile Include="Helpers\DateTimeConverter.cs" />
+    <Compile Include="Helpers\StaticVariables.cs" />
     <Compile Include="Models\AdvisorDetails.cs" />
     <Compile Include="Models\Majors.cs" />
     <Compile Include="Models\Programs.cs" />
@@ -157,6 +157,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Login\LoginPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

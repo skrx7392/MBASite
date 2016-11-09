@@ -33,7 +33,7 @@ namespace MBASite.Controllers
             return View(studentData);
         }
         
-        public void populateStudentData()
+        private void populateStudentData()
         {
             foreach(var details in studentDetails)
             {
