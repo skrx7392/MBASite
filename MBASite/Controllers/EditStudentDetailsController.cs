@@ -15,7 +15,7 @@ namespace MBASite.Controllers
         // GET: EditStudentDetails
         public ActionResult EditStudentDetails()
         {
-            if(TempData["studentData"]!=null)
+            if((StaticVariables.Role.Equals("Advisor") || StaticVariables.Role.Equals("Director")) && TempData["studentData"]!=null)
             {
                 return View(TempData["studentData"]);
             }
@@ -23,25 +23,26 @@ namespace MBASite.Controllers
             {
                 int id = int.Parse(User.Identity.Name);
                 studentData = populateData(id);
+                return View(studentData);
             }
-            return View(studentData);
+            return View();
         }
 
         public StudentData populateData(int id)
         {
-            StudentDetails studentDetails = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == id);
+            UCMStudent studentDetails = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == id);
             studentData.Id = studentDetails.Id;
             studentData.Address = studentDetails.Address;
             studentData.Comments = studentDetails.Comments;
             studentData.Concentration = StaticVariables.Programs.FirstOrDefault(p => p.Id == studentDetails.ProgramId).Name;
             studentData.FirstName = studentDetails.FirstName;
             studentData.GMATScore = studentDetails.GMATScore.HasValue ? studentDetails.GMATScore.Value : 0;
-            studentData.GPA = studentDetails.GPA.HasValue ? studentDetails.GPA.Value : 0;
+            //studentData.GPA = studentDetails.GPA.HasValue ? studentDetails.GPA.Value : 0;
             studentData.GREScore = studentDetails.GREScore.HasValue ? studentDetails.GREScore.Value : 0;
             studentData.LastName = studentDetails.LastName;
             studentData.NonUCMOEmailId = studentDetails.AlternateEmail;
             studentData.PhoneNumber = studentDetails.PhoneNumber;
-            studentData.ProgramEntryDate = studentDetails.CreatedDate;
+            //studentData.ProgramEntryDate = studentDetails.CreatedDate;
             studentData.UCMOEmailId = studentDetails.Email;
             return studentData;
         }
@@ -49,18 +50,18 @@ namespace MBASite.Controllers
         [HttpPost]
         public ActionResult EditStudentDetails(StudentData studentData)
         {
-            StudentDetails studentDetails = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == studentData.Id);
+            UCMStudent studentDetails = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == studentData.Id);
             studentDetails.Address = studentData.Address;
             studentDetails.Comments = studentData.Comments;
             studentDetails.ProgramId = StaticVariables.Programs.FirstOrDefault(p => p.Name.Equals(studentData.Concentration)).Id;
             studentDetails.FirstName = studentData.FirstName;
             studentDetails.GMATScore = studentData.GMATScore;
-            studentDetails.GPA = studentData.GPA;
+            //studentDetails.GPA = studentData.GPA;
             studentDetails.GREScore = studentData.GREScore;
             studentDetails.LastName = studentData.LastName;
             studentDetails.Email = studentData.NonUCMOEmailId;
             studentDetails.PhoneNumber = studentData.PhoneNumber;
-            studentDetails.CreatedDate = studentData.ProgramEntryDate;
+            //studentDetails.CreatedDate = studentData.ProgramEntryDate;
             studentDetails.Email = studentData.UCMOEmailId;
             StaticVariables.StudentDetails.RemoveAll(x => x.Id == studentDetails.Id);
             StaticVariables.StudentDetails.Add(studentDetails);

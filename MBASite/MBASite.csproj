@@ -123,33 +123,36 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AddAdvisorController.cs" />
+    <Compile Include="Controllers\AddCourseController.cs" />
+    <Compile Include="Controllers\AddPrereqsController.cs" />
+    <Compile Include="Controllers\AddStudentController.cs" />
+    <Compile Include="Controllers\EditStudentAdvisingController.cs" />
     <Compile Include="Controllers\EditStudentController.cs" />
     <Compile Include="Controllers\EditStudentDetailsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ViewStudentDetailsController.cs" />
-    <Compile Include="Enums\States.cs" />
-    <Compile Include="Enums\TestType.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AsyncEmulator.cs" />
-    <Compile Include="Helpers\DateTimeConverter.cs" />
     <Compile Include="Helpers\StaticVariables.cs" />
-    <Compile Include="Models\AdvisorDetails.cs" />
     <Compile Include="Models\Course.cs" />
-    <Compile Include="Models\Majors.cs" />
-    <Compile Include="Models\Programs.cs" />
-    <Compile Include="Models\Roles.cs" />
-    <Compile Include="Models\StudentAcademicStatus.cs" />
-    <Compile Include="Models\StudentDetails.cs" />
-    <Compile Include="Models\StudentTrainingStatus.cs" />
-    <Compile Include="Models\TrainingData.cs" />
+    <Compile Include="Models\Major.cs" />
+    <Compile Include="Models\Program.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\Student_AcademicStatus.cs" />
+    <Compile Include="Models\Student_TrainingStatus.cs" />
+    <Compile Include="Models\Training.cs" />
+    <Compile Include="Models\UCMModerator.cs" />
+    <Compile Include="Models\UCMStudent.cs" />
+    <Compile Include="Models\UCMUser.cs" />
+    <Compile Include="Models\UserLogin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AdvisorData.cs" />
     <Compile Include="ViewModels\Course.cs" />
     <Compile Include="ViewModels\LoginDetails.cs" />
-    <Compile Include="ViewModels\LoginStatus.cs" />
     <Compile Include="ViewModels\PrerequisiteCourses.cs" />
     <Compile Include="ViewModels\StudentAdvisingData.cs" />
     <Compile Include="ViewModels\StudentData.cs" />
@@ -166,8 +169,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Login\LoginPage.cshtml" />
-    <Content Include="Views\EditStudent\StudentsList.cshtml" />
     <Content Include="Views\EditStudentDetails\EditStudentDetails.cshtml" />
+    <Content Include="Views\AddStudent\AddStudent.cshtml" />
+    <Content Include="Views\AddAdvisor\AddAdvisor.cshtml" />
+    <Content Include="Views\EditStudentAdvising\EditStudentAdvising.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -177,6 +182,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\AddCourse\" />
+    <Folder Include="Views\AddPrereqs\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
