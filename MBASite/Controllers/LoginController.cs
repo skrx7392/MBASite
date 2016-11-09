@@ -52,7 +52,8 @@ namespace MBASite.Controllers
             }
             else
             {
-                return View(new LoginDetails());
+                details = new LoginDetails();
+                return View(details);
             }
         }
 
