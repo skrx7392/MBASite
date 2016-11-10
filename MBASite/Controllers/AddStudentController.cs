@@ -9,6 +9,9 @@ using MBASite.Helpers;
 using System.Web.Security;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Net;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace MBASite.Controllers
 {
@@ -79,16 +82,23 @@ namespace MBASite.Controllers
             {
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json",1.0));
-                //HttpResponseMessage response = 
-                //   HttpContent content = Strea
-                //HttpRequestMessage msg = new HttpRequestMessage(HttpMethod.Post, uri);
-                //msg.Content = HttpContent
-                    Task<HttpResponseMessage> responseAsync= client.PostAsJsonAsync<StudentInfo>(uri, info);
-                responseAsync.Wait();
-                string resultString = responseAsync.Result.Content.ReadAsStringAsync().Result;
-                return String.Equals(resultString, "Success") ? true : false;
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = client.PostAsJsonAsync(uri, info).Result;
+                string resultString = response.Content.ReadAsStringAsync().Result;
+                bool authResult = resultString.Equals("true") ? true : false;
+                return authResult;
             }
+            //var jsonString = Task.Run(() => JsonConvert.SerializeObject(info)).Result;
+            //var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            //using (var client = new HttpClient())
+            //{
+            //    var httpResponse = client.PostAsync(url + uri, httpContent).Result;
+            //    if(httpResponse.Content != null)
+            //    {
+            //        var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
+            //    }
+            //}
+            return false;
         }
 
         private void populate(StudentInfo _student, UCMStudent student)
