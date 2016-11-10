@@ -8,9 +8,11 @@ using MBASite.Models;
 using MBASite.Helpers;
 using System.Web.Security;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace MBASite.Controllers
 {
+    [Authorize]
     public class AddStudentController : Controller
     {
         StudentData studentData;
@@ -69,17 +71,50 @@ namespace MBASite.Controllers
 
         private bool postToWebApi(UCMStudent student)
         {
+            StudentInfo info = new StudentInfo();
+            populate(info, student);
             string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
             string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["addStudent"];
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = client.PostAsJsonAsync(uri, student).Result;
-                string resultString = response.Content.ReadAsStringAsync().Result;
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json",1.0));
+                //HttpResponseMessage response = 
+                //   HttpContent content = Strea
+                //HttpRequestMessage msg = new HttpRequestMessage(HttpMethod.Post, uri);
+                //msg.Content = HttpContent
+                    Task<HttpResponseMessage> responseAsync= client.PostAsJsonAsync<StudentInfo>(uri, info);
+                responseAsync.Wait();
+                string resultString = responseAsync.Result.Content.ReadAsStringAsync().Result;
                 return String.Equals(resultString, "Success") ? true : false;
             }
+        }
+
+        private void populate(StudentInfo _student, UCMStudent student)
+        {
+            _student.Address = student.Address;
+            _student.Advisor = student.Advisor;
+            _student.ApprovedGrad = student.ApprovedGrad;
+            _student.Comments = student.Comments;
+            _student.AlternateEmail = student.AlternateEmail;
+            _student.CreatedDate = student.CreatedDate;
+            _student.Email = student.Email;
+            _student.FirstName = student.FirstName;
+            _student.GMATScore = student.GMATScore;
+            _student.GPA = student.GPA;
+            _student.GREScore = student.GREScore;
+            _student.LastName = student.LastName;
+            _student.ModifiedDate = student.ModifiedDate;
+            _student.Password = student.Password;
+            _student.PhoneNumber = student.PhoneNumber;
+            _student.PrereqsMet = student.PrereqsMet;
+            _student.ProgramId = student.ProgramId;
+            _student.RoleId = student.RoleId;
+            _student.StartDate = student.StartDate;
+            _student.StudentTrainingStatusId = student.StudentTrainingStatusId;
+            _student.Student_AcademicStatusId = student.Student_AcademicStatusId;
+            _student.TrainingId = student.TrainingId;
         }
     }
 }
