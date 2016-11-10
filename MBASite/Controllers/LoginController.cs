@@ -98,18 +98,6 @@ namespace MBASite.Controllers
         private void CreateCookie(LoginDetails details)
         {
             StaticVariables.Role = GetRoleOfUser(int.Parse(details.Username));
-            StaticVariables.StudentDetails = AsyncEmulator.EmulateAsync<UCMStudent>("getStudents");
-            if(StaticVariables.Role.Equals("Advisor"))
-            {
-                StaticVariables.AdvisorDetails = AsyncEmulator.EmulateAsync<UCMModerator>("getAdvisors");
-                StaticVariables.Programs = AsyncEmulator.EmulateAsync<Program>("getPrograms");
-            }
-            if(StaticVariables.Role.Equals("Director"))
-            {
-                StaticVariables.AdvisorDetails = AsyncEmulator.EmulateAsync<UCMModerator>("getAdvisors");
-                StaticVariables.Programs = AsyncEmulator.EmulateAsync<Program>("getPrograms");
-                StaticVariables.Courses = AsyncEmulator.EmulateAsync<Models.Course>("getCourses");
-            }
             FormsAuthentication.SetAuthCookie(details.Username.ToString(), false);
         }
 

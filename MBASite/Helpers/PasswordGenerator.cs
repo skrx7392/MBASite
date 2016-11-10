@@ -12,7 +12,7 @@ namespace MBASite.Helpers
     {
         public static string GeneratePassword()
         {
-            return Membership.GeneratePassword(8, 8);
+            return Membership.GeneratePassword(8, 0);
         }
 
         public static string HashPassword(string password)

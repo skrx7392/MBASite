@@ -8,5 +8,6 @@ namespace MBASite.Models
     public class UCMModerator : UCMUser
     {
         public bool IsActive { get; set; }
+        public string programId { get; set; }
     }
 }

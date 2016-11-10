@@ -10,6 +10,7 @@ namespace MBASite.Controllers
     public class AddPrereqsController : Controller
     {
         PrerequisiteCourses prereqs;
+        
         // GET: AddPrereqs
         public ActionResult AddPrereqs()
         {

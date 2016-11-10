@@ -11,60 +11,34 @@ namespace MBASite.Controllers
 {
     public class EditStudentDetailsController : Controller
     {
-        StudentData studentData;
+        
+        UCMStudent Student;
+        StudentData StudentData;
         // GET: EditStudentDetails
         public ActionResult EditStudentDetails()
         {
+            int studentId = 0;
             if((StaticVariables.Role.Equals("Advisor") || StaticVariables.Role.Equals("Director")) && TempData["studentData"]!=null)
             {
-                return View(TempData["studentData"]);
+                if(TempData.ContainsKey("student"))
+                {
+                    studentId = int.Parse(TempData["student"].ToString());
+                }
             }
-            if(StaticVariables.Role.Equals("Student"))
+            else if(StaticVariables.Role.Equals("Student"))
             {
-                int id = int.Parse(User.Identity.Name);
-                studentData = populateData(id);
-                return View(studentData);
+                studentId = int.Parse(User.Identity.Name);
             }
-            return View();
-        }
-
-        public StudentData populateData(int id)
-        {
-            UCMStudent studentDetails = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == id);
-            studentData.Id = studentDetails.Id;
-            studentData.Address = studentDetails.Address;
-            studentData.Comments = studentDetails.Comments;
-            studentData.Concentration = StaticVariables.Programs.FirstOrDefault(p => p.Id == studentDetails.ProgramId).Name;
-            studentData.FirstName = studentDetails.FirstName;
-            studentData.GMATScore = studentDetails.GMATScore.HasValue ? studentDetails.GMATScore.Value : 0;
-            //studentData.GPA = studentDetails.GPA.HasValue ? studentDetails.GPA.Value : 0;
-            studentData.GREScore = studentDetails.GREScore.HasValue ? studentDetails.GREScore.Value : 0;
-            studentData.LastName = studentDetails.LastName;
-            studentData.NonUCMOEmailId = studentDetails.AlternateEmail;
-            studentData.PhoneNumber = studentDetails.PhoneNumber;
-            //studentData.ProgramEntryDate = studentDetails.CreatedDate;
-            studentData.UCMOEmailId = studentDetails.Email;
-            return studentData;
+            Student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == studentId);
+            StudentData = populateData(studentId);
+            return View(StudentData);
         }
 
         [HttpPost]
         public ActionResult EditStudentDetails(StudentData studentData)
         {
-            UCMStudent studentDetails = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == studentData.Id);
-            studentDetails.Address = studentData.Address;
-            studentDetails.Comments = studentData.Comments;
-            studentDetails.ProgramId = StaticVariables.Programs.FirstOrDefault(p => p.Name.Equals(studentData.Concentration)).Id;
-            studentDetails.FirstName = studentData.FirstName;
-            studentDetails.GMATScore = studentData.GMATScore;
-            //studentDetails.GPA = studentData.GPA;
-            studentDetails.GREScore = studentData.GREScore;
-            studentDetails.LastName = studentData.LastName;
-            studentDetails.Email = studentData.NonUCMOEmailId;
-            studentDetails.PhoneNumber = studentData.PhoneNumber;
-            //studentDetails.CreatedDate = studentData.ProgramEntryDate;
-            studentDetails.Email = studentData.UCMOEmailId;
-            StaticVariables.StudentDetails.RemoveAll(x => x.Id == studentDetails.Id);
-            StaticVariables.StudentDetails.Add(studentDetails);
+            Student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == studentData.Id);
+            updateData(studentData);
             //
             //
             // To-do 
@@ -72,7 +46,45 @@ namespace MBASite.Controllers
             // Update Web Api to handle edit student details
             //
             //
-            return RedirectToAction("EditStudentDetails", studentData);
+            return View(studentData);
+        }
+
+        public StudentData populateData(int id)
+        {
+            UCMStudent studentDetails = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == id);
+            StudentData.Id = studentDetails.Id;
+            StudentData.Address = studentDetails.Address;
+            StudentData.Comments = studentDetails.Comments;
+            StudentData.Concentration = StaticVariables.Programs.FirstOrDefault(p => p.Id == studentDetails.ProgramId).Name;
+            StudentData.FirstName = studentDetails.FirstName;
+            StudentData.GMATScore = studentDetails.GMATScore.HasValue ? studentDetails.GMATScore.Value : 0;
+            StudentData.GPA = studentDetails.GPA;
+            StudentData.GREScore = studentDetails.GREScore.HasValue ? studentDetails.GREScore.Value : 0;
+            StudentData.LastName = studentDetails.LastName;
+            StudentData.NonUCMOEmailId = studentDetails.AlternateEmail;
+            StudentData.PhoneNumber = studentDetails.PhoneNumber;
+            StudentData.ProgramEntryDate = studentDetails.CreatedDate.ToString();
+            StudentData.UCMOEmailId = studentDetails.Email;
+            return StudentData;
+        }
+        
+        public void updateData(StudentData studentData)
+        {
+            Student.Address = studentData.Address;
+            Student.Comments = studentData.Comments;
+            Student.ProgramId = StaticVariables.Programs.FirstOrDefault(p => p.Name.Equals(studentData.Concentration)).Id;
+            Student.FirstName = studentData.FirstName;
+            Student.GMATScore = studentData.GMATScore;
+            Student.GPA = studentData.GPA;
+            Student.GREScore = studentData.GREScore;
+            Student.LastName = studentData.LastName;
+            Student.Email = studentData.NonUCMOEmailId;
+            Student.PhoneNumber = studentData.PhoneNumber;
+            Student.CreatedDate = DateTime.Parse(studentData.ProgramEntryDate);
+            Student.Email = studentData.UCMOEmailId;
+            StaticVariables.StudentDetails.RemoveAll(x => x.Id == Student.Id);
+            StaticVariables.StudentDetails.Add(Student);
+
         }
     }
 }

@@ -127,6 +127,7 @@
     <Compile Include="Controllers\AddCourseController.cs" />
     <Compile Include="Controllers\AddPrereqsController.cs" />
     <Compile Include="Controllers\AddStudentController.cs" />
+    <Compile Include="Controllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\EditStudentAdvisingController.cs" />
     <Compile Include="Controllers\EditStudentController.cs" />
     <Compile Include="Controllers\EditStudentDetailsController.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="Models\Major.cs" />
     <Compile Include="Models\Program.cs" />
     <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\StudentInfo.cs" />
     <Compile Include="Models\Student_AcademicStatus.cs" />
     <Compile Include="Models\Student_TrainingStatus.cs" />
     <Compile Include="Models\Training.cs" />
@@ -152,6 +154,7 @@
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AdvisorData.cs" />
+    <Compile Include="ViewModels\ChangePassword.cs" />
     <Compile Include="ViewModels\Course.cs" />
     <Compile Include="ViewModels\LoginDetails.cs" />
     <Compile Include="ViewModels\PrerequisiteCourses.cs" />
@@ -176,6 +179,7 @@
     <Content Include="Views\Home\Student.cshtml" />
     <Content Include="Views\Home\Advisor.cshtml" />
     <Content Include="Views\Home\Director.cshtml" />
+    <Content Include="Views\AddCourse\AddCourse.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -185,8 +189,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\AddCourse\" />
     <Folder Include="Views\AddPrereqs\" />
+    <Folder Include="Views\ChangePassword\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -15,15 +15,43 @@ namespace MBASite.Controllers
         // GET: AddAdvisor
         public ActionResult AddAdvisor()
         {
-            return View(new AdvisorData());
+            advisorData = new AdvisorData();
+            return View(advisorData);
         }
 
         [HttpPost]
         public ActionResult AddAdvisor(AdvisorData advisorData)
         {
             UCMModerator details = new UCMModerator();
-            // update and post to web api
-            return View(new AdvisorData());
+            populateAdvisorDetails(details, advisorData);
+            bool added = PostToApi(details);
+            if(added)
+            {
+                StaticVariables.AdvisorDetails.Add(details);
+                return View(new AdvisorData());
+            }
+            return View(details);
+        }
+
+        private void populateAdvisorDetails(UCMModerator details, AdvisorData data)
+        {
+            details.AlternateEmail = string.Empty;
+            details.CreatedDate = DateTime.Now;
+            details.Email = data.Email;
+            details.FirstName = data.FirstName;
+            details.IsActive = true;
+            details.LastName = data.LastName;
+            details.ModifiedDate = DateTime.Now;
+            details.Password = PasswordGenerator.HashPassword(PasswordGenerator.GeneratePassword());
+            details.Role = StaticVariables.Roles.FirstOrDefault(p => p.Name.Equals("Advisor"));
+            details.programId = StaticVariables.Programs.FirstOrDefault(p => p.Name.Equals(data.Concentration)).Id.ToString();
+            details.RoleId = details.Role.Id;
+        }
+
+        private bool PostToApi(UCMModerator details)
+        {
+            // TO-DO
+            return false;
         }
     }
 }

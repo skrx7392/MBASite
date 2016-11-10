@@ -22,16 +22,29 @@ namespace MBASite.Controllers
         public ActionResult AddCourse(ViewModels.Course course)
         {
             Models.Course modelCourse = new Models.Course();
+            populateCourse(modelCourse, course);
+            bool added = postToWebApi(modelCourse);
+            if(added)
+            {
+                StaticVariables.Courses.Add(modelCourse);
+                return View(new ViewModels.Course());
+            }
+            return View(course);
+        }
+
+        private void populateCourse(Models.Course modelCourse, ViewModels.Course course)
+        {
             modelCourse.ConcentrationCode = course.ConcentrationCode;
             modelCourse.CourseNumber = course.CourseNumber.ToString();
             modelCourse.Name = course.CourseName;
             modelCourse.PreqId = string.Empty;
             modelCourse.ProgramId = course.ProgramId;
-            StaticVariables.Courses.Add(modelCourse);
-            // 
-            // TO-DO
-            // Update Courses in DB using Web Api
-            return View(new ViewModels.Course());
         }
+
+        private bool postToWebApi(Models.Course course)
+        {
+            //TO-DO
+            return false;
+        } 
     }
 }
