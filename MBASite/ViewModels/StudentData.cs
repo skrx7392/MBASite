@@ -16,7 +16,7 @@ namespace MBASite.ViewModels
         public string ProgramEntryDate { get; set; }
         public int GMATScore { get; set; }
         public int GREScore { get; set; }
-        public double GPA { get; set; }
+        public decimal GPA { get; set; }
         public string UCMOEmailId { get; set; }
         public string NonUCMOEmailId { get; set; }
         public string Comments { get; set; }

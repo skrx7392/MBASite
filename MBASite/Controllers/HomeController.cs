@@ -11,7 +11,17 @@ namespace MBASite.Controllers
     {
 
         // GET: Home
-        public ActionResult Index()
+        public ActionResult Student()
+        {
+            return View();
+        }
+
+        public ActionResult Advisor()
+        {
+            return View();
+        }
+
+        public ActionResult Director()
         {
             return View();
         }

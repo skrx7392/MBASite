@@ -137,6 +137,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AsyncEmulator.cs" />
+    <Compile Include="Helpers\PasswordGenerator.cs" />
     <Compile Include="Helpers\StaticVariables.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Major.cs" />
@@ -163,7 +164,6 @@
     <Content Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -173,6 +173,9 @@
     <Content Include="Views\AddStudent\AddStudent.cshtml" />
     <Content Include="Views\AddAdvisor\AddAdvisor.cshtml" />
     <Content Include="Views\EditStudentAdvising\EditStudentAdvising.cshtml" />
+    <Content Include="Views\Home\Student.cshtml" />
+    <Content Include="Views\Home\Advisor.cshtml" />
+    <Content Include="Views\Home\Director.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

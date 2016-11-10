@@ -35,21 +35,23 @@ namespace MBASite.Controllers
         public ActionResult LoginPage(LoginDetails login)
         {
             details.Username = login.Username;
-            MD5 md5 = new MD5CryptoServiceProvider();
-            md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(login.Password));
-            byte[] result = md5.Hash;
-            StringBuilder strBuilder = new StringBuilder();
-            foreach(var i in result)
-            {
-                strBuilder.Append(i.ToString("x2"));
-            }
-            details.Password = strBuilder.ToString();
+            details.Password = PasswordGenerator.HashPassword(login.Password);
             bool userValid = AuthenticateUser(details);
             if(userValid)
             {
                 CreateCookie(details);
-                //string user = HttpContext.User.Identity.Name;
-                return RedirectToAction("Index", "Home");
+                if(StaticVariables.Role.Equals("Director"))
+                {
+                    return RedirectToAction("Director", "Home");
+                }
+                else if (StaticVariables.Role.Equals("Advisor"))
+                {
+                    return RedirectToAction("Advisor", "Home");
+                }
+                else
+                {
+                    return RedirectToAction("Student", "Home");
+                }
             }
             else
             {
