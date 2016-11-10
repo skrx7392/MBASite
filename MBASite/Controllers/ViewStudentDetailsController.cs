@@ -13,17 +13,17 @@ namespace MBASite.Controllers
 {
     public class ViewStudentDetailsController : Controller
     {
-        List<StudentDetails> studentDetails;
-        List<Programs> programs;
+        List<UCMStudent> studentDetails;
+        List<Program> programs;
         List<StudentData> studentData;
         
         public ViewStudentDetailsController()
         {
-            studentDetails = new List<StudentDetails>();
-            programs = new List<Programs>();
+            studentDetails = new List<UCMStudent>();
+            programs = new List<Program>();
             studentData = new List<StudentData>();
-            studentDetails = AsyncEmulator.EmulateAsync<StudentDetails>("getStudents");
-            programs = AsyncEmulator.EmulateAsync<Programs>("getPrograms");
+            studentDetails = AsyncEmulator.EmulateAsync<UCMStudent>("getStudents");
+            programs = AsyncEmulator.EmulateAsync<Program>("getPrograms");
             populateStudentData();
         }
 
@@ -46,7 +46,7 @@ namespace MBASite.Controllers
                 data.LastName = details.LastName;
                 data.NonUCMOEmailId = details.AlternateEmail;
                 data.PhoneNumber = details.PhoneNumber;
-                data.ProgramEntryDate = details.CreatedDate;
+                //data.ProgramEntryDate = details.CreatedDate;
                 data.GMATScore = details.GMATScore.HasValue ? details.GMATScore.Value : 0;
                 data.GREScore = details.GREScore.HasValue ? details.GMATScore.Value : 0;
                 data.UCMOEmailId = details.Email;

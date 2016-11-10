@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MBASite.ViewModels
+namespace MBASite.Models
 {
-    public class LoginStatus
+    public class UserLogin
     {
         public int ID { get; set; }
         public string Password { get; set; }
