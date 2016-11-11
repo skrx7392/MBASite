@@ -63,7 +63,7 @@ namespace MBASite.Controllers
             StudentData.LastName = studentDetails.LastName;
             StudentData.NonUCMOEmailId = studentDetails.AlternateEmail;
             StudentData.PhoneNumber = studentDetails.PhoneNumber;
-            StudentData.ProgramEntryDate = studentDetails.CreatedDate.ToString();
+            StudentData.ProgramEntryDate = studentDetails.CreatedDate;
             StudentData.UCMOEmailId = studentDetails.Email;
             return StudentData;
         }
@@ -80,7 +80,7 @@ namespace MBASite.Controllers
             Student.LastName = studentData.LastName;
             Student.Email = studentData.NonUCMOEmailId;
             Student.PhoneNumber = studentData.PhoneNumber;
-            Student.CreatedDate = DateTime.Parse(studentData.ProgramEntryDate);
+            Student.CreatedDate = studentData.ProgramEntryDate;
             Student.Email = studentData.UCMOEmailId;
             StaticVariables.StudentDetails.RemoveAll(x => x.Id == Student.Id);
             StaticVariables.StudentDetails.Add(Student);

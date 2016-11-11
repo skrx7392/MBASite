@@ -60,7 +60,7 @@ namespace MBASite.Controllers
             student.ProgramId = student.Program.Id;
             student.Role = StaticVariables.Roles.FirstOrDefault(p => p.Name.Equals(StaticVariables.Role));
             student.RoleId = student.Role.Id;
-            student.StartDate = DateTime.Parse(data.ProgramEntryDate);
+            student.StartDate = data.ProgramEntryDate;
             student.Student_TrainingStatus = StaticVariables.TrainingStatuses.FirstOrDefault(p => p.TrainingStatus.Equals("Due"));
             student.StudentTrainingStatusId = student.Student_TrainingStatus.Id;
             student.Student_AcademicStatus = StaticVariables.AcademicStatuses.FirstOrDefault(p => p.AcademicStatus.Equals("Accepted"));
