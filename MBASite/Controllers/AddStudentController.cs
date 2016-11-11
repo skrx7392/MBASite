@@ -6,12 +6,9 @@ using System.Web.Mvc;
 using MBASite.ViewModels;
 using MBASite.Models;
 using MBASite.Helpers;
-using System.Web.Security;
 using System.Net.Http;
-using System.Threading.Tasks;
-using System.Net;
-using Newtonsoft.Json;
 using System.Text;
+using System.Web.Script.Serialization;
 
 namespace MBASite.Controllers
 {
@@ -74,57 +71,20 @@ namespace MBASite.Controllers
 
         private bool postToWebApi(UCMStudent student)
         {
-            StudentInfo info = new StudentInfo();
-            populate(info, student);
             string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
             string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["addStudent"];
+            var jsonString = new JavaScriptSerializer().Serialize(student);
+            var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(url);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = client.PostAsJsonAsync(uri, info).Result;
-                string resultString = response.Content.ReadAsStringAsync().Result;
-                bool authResult = resultString.Equals("true") ? true : false;
-                return authResult;
+                var httpResponse = client.PostAsync(url + uri, httpContent).Result;
+                if (httpResponse.Content != null)
+                {
+                    var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
+                    return responseContent.Equals("Success") ? true : false;
+                }
             }
-            //var jsonString = Task.Run(() => JsonConvert.SerializeObject(info)).Result;
-            //var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            //using (var client = new HttpClient())
-            //{
-            //    var httpResponse = client.PostAsync(url + uri, httpContent).Result;
-            //    if(httpResponse.Content != null)
-            //    {
-            //        var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
-            //    }
-            //}
             return false;
-        }
-
-        private void populate(StudentInfo _student, UCMStudent student)
-        {
-            _student.Address = student.Address;
-            _student.Advisor = student.Advisor;
-            _student.ApprovedGrad = student.ApprovedGrad;
-            _student.Comments = student.Comments;
-            _student.AlternateEmail = student.AlternateEmail;
-            _student.CreatedDate = student.CreatedDate;
-            _student.Email = student.Email;
-            _student.FirstName = student.FirstName;
-            _student.GMATScore = student.GMATScore;
-            _student.GPA = student.GPA;
-            _student.GREScore = student.GREScore;
-            _student.LastName = student.LastName;
-            _student.ModifiedDate = student.ModifiedDate;
-            _student.Password = student.Password;
-            _student.PhoneNumber = student.PhoneNumber;
-            _student.PrereqsMet = student.PrereqsMet;
-            _student.ProgramId = student.ProgramId;
-            _student.RoleId = student.RoleId;
-            _student.StartDate = student.StartDate;
-            _student.StudentTrainingStatusId = student.StudentTrainingStatusId;
-            _student.Student_AcademicStatusId = student.Student_AcademicStatusId;
-            _student.TrainingId = student.TrainingId;
         }
     }
 }
