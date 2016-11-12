@@ -22,5 +22,10 @@ namespace MBASite.Helpers
             serializer.Serialize(stringWriter, comment);
             return stringWriter.ToString();
         }
+
+        //public static comments AddNewComment(comments comment, string newComment)
+        //{
+        //    comment.
+        //}
     }
 }

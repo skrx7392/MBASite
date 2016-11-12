@@ -122,5 +122,10 @@ namespace MBASite.Controllers
             string res = "Dear " + data.FirstName + " " + data.LastName + ",\n \nWe are glad you have been accepted into the MBA Program - " + data.Concentration + " Concentration at the University of Central Missouri and are looking forward to your participation in the program.\n \nYour next step is to access the web site linked below and answer questions which will \nenable your advisor to better serve you. This information is shared between and MBA Program Director and the Program Advisors. \nIt is not made available to outside parties.\n \nEven if your plans change and you decide not to attend, we ask that you indicate such at \nthe web site.\n \nURL:" + url +"\nStudent ID:" + data.Id + "\nPassword: " + password + "\nQuestions about the questionnaire or the MBA program should be directed to Dr. Kerry \nHenson, MBA Program Director at \n\nMBA@UCMO.EDU \n \nPlease do not reply to this message.\n\n Thanks! \n\nKerry Henson, PhD \nAssistant Dean \nMBA Program Director \nHarmon College of Business and Professional Studies \nUniversity of Central Missouri \nDockery 300C \nWarrensburg, Missouri 64093\n\n660-422-2705 \nmba@ucmo.edu";
             return res;
         }
+
+        private comments CreateComments(string comment)
+        {
+            return ConfigureComments.DeserializeComments(comment);
+        }
     }
 }

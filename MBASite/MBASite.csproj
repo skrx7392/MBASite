@@ -142,6 +142,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\AsyncEmulator.cs" />
     <Compile Include="Helpers\ConfigureComments.cs" />
     <Compile Include="Helpers\PasswordGenerator.cs" />
@@ -191,8 +192,11 @@
     <Content Include="Views\Home\Director.cshtml" />
     <Content Include="Views\AddCourse\AddCourse.cshtml" />
     <Content Include="Views\Questionnaire\FillQuestionnaire.cshtml" />
-    <Content Include="Views\EditStudent\StudentsList.cshtml" />
     <Content Include="Views\ChangePassword\ChangePassword.cshtml" />
+    <Content Include="Views\AddPrereqs\AddPrereqs.cshtml" />
+    <Content Include="Views\EditStudent\StudentsList.cshtml" />
+    <Content Include="Views\UpdateAdvisor\UpdateAdvisor.cshtml" />
+    <Content Include="Views\UpdateAdvisor\UpdateAdvisorData.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -202,8 +206,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\AddPrereqs\" />
-    <Folder Include="Views\UpdateAdvisor\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

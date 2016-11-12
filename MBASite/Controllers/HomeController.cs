@@ -22,10 +22,10 @@ namespace MBASite.Controllers
             StaticVariables.AcademicStatuses = AsyncEmulator.EmulateAsync<Student_AcademicStatus>("getStudentAcademicStatus");
             ViewBag.Title = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == int.Parse(User.Identity.Name)).FirstName;
             UCMStudent student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == int.Parse(User.Identity.Name));
-            //if(StaticVariables.TrainingStatuses.FirstOrDefault(p=>p.Id==student.Id).TrainingStatus.ToLower().Equals("Due".ToLower()))
-            //{
-            //    return RedirectToAction("FillQuestionnaire", "Questionnaire");
-            //}
+            if (StaticVariables.TrainingStatuses.FirstOrDefault(p => p.Id == student.Id).TrainingStatus.ToLower().Equals("Due".ToLower()))
+            {
+                return RedirectToAction("FillQuestionnaire", "Questionnaire");
+            }
             return View();
         }
 

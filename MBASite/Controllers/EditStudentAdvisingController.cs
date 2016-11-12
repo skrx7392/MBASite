@@ -20,7 +20,7 @@ namespace MBASite.Controllers
         public ActionResult EditStudentAdvising()
         {
             studentData = new StudentAdvisingData();
-            studentDetails = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == Convert.ToInt32(User.Identity.Name));
+            studentDetails = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == 700000003);
             populateData(studentData, studentDetails);
             return View(studentData);
         }
@@ -28,7 +28,7 @@ namespace MBASite.Controllers
         [HttpPost]
         public ActionResult EditStudentAdvising(StudentAdvisingData data)
         {
-            updateStudentDetails(data, studentDetails);
+            studentDetails = updateStudentDetails(data);
             bool status = postToWebApi(studentDetails);
             if(status)
             {
@@ -40,7 +40,7 @@ namespace MBASite.Controllers
         private bool postToWebApi(UCMStudent studentDetails)
         {
             string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
-            string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["addStudent"];
+            string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["updateStudent"];
             var jsonString = new JavaScriptSerializer().Serialize(studentDetails);
             var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
             using (var client = new HttpClient())
@@ -49,7 +49,7 @@ namespace MBASite.Controllers
                 if (httpResponse.Content != null)
                 {
                     var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
-                    return responseContent.Equals("Success") ? true : false;
+                    return responseContent.Equals("\"Success\"") ? true : false;
                 }
             }
             return false;
@@ -67,8 +67,9 @@ namespace MBASite.Controllers
             studentData.ProgramStatus = StaticVariables.AcademicStatuses.FirstOrDefault(p => p.ID == details.Student_AcademicStatusId).AcademicStatus;
         }
 
-        private void updateStudentDetails(StudentAdvisingData data, UCMStudent details)
+        private UCMStudent updateStudentDetails(StudentAdvisingData data)
         {
+            var details = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == data.Id);
             details.Program = StaticVariables.Programs.FirstOrDefault(p => p.Name.Equals(data.Concentration));
             details.ProgramId = details.Program.Id;
             details.Advisor = Convert.ToInt32(data.Advisor);
@@ -77,6 +78,7 @@ namespace MBASite.Controllers
             details.FirstName = data.FirstName;
             details.LastName = data.LastName;
             details.Student_AcademicStatus = StaticVariables.AcademicStatuses.FirstOrDefault(p => p.AcademicStatus.Equals(data.ProgramStatus));
+            return details;
         }
     }
 }

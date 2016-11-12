@@ -12,20 +12,23 @@ namespace MBASite.Controllers
     [Authorize]
     public class EditStudentController : Controller
     {
-        StudentId Students;
+        List<StudentId> Students;
         int Id;
 
         public EditStudentController()
         {
-            Students = new StudentId();
+            Students = new List<StudentId>();
         }
         // GET: EditStudent
         public ActionResult StudentsList()
         {
             foreach (var student in StaticVariables.StudentDetails)
             {
-                int identity = student.Id;
-                Students.Id.Add(identity);
+                StudentId identity = new StudentId
+                {
+                    Id = student.Id
+                };
+                Students.Add(identity);
             }
             return View(Students);
         }
