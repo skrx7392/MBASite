@@ -4081,7 +4081,9 @@ textarea.input-group-sm > .input-group-btn > .btn {
     float: left;
   }
 }
-
+Collapsible-body{
+display:block;
+}
 .navbar-collapse {
   max-height: 340px;
   padding-right: 15px;

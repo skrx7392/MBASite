@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Director";
+    @ViewBag.Title;
 }
 
 <h2>Director</h2>
@@ -11,7 +11,7 @@
         <button class="btn waves-effect waves-light green" type="submit" onclick="location.href='@Url.Action("AddStudent", "AddStudent")'">Add Student<i class="material-icons right">send</i></button>
     </div>
     <div class="col s6 ">
-        <button class="btn waves-effect waves-light red" type="submit" onclick="location.href='@Url.Action("AddAdvisor", "AddAdvisor")'">Add Advisor<i class="material-icons right">send</i></button>
+        <button class="btn waves-effect waves-light blue" type="submit" onclick="location.href='@Url.Action("AddAdvisor", "AddAdvisor")'">Add Advisor<i class="material-icons right">send</i></button>
     </div>
 </div>
 <div class="row">
@@ -19,7 +19,7 @@
         <button class="btn waves-effect waves-light green" type="submit" onclick="location.href='@Url.Action("AddCourse", "AddCourse")'">Add Course<i class="material-icons right">send</i></button>
     </div>
     <div class="col s6 ">
-        <button class="btn waves-effect waves-light red" type="submit" onclick="location.href='@Url.Action("AddPrereqs", "AddPrereqs")'">Add Prerequisite Course<i class="material-icons right">send</i></button>
+        <button class="btn waves-effect waves-light blue" type="submit" onclick="location.href='@Url.Action("AddPrereqs", "AddPrereqs")'">Add Prerequisite Course<i class="material-icons right">send</i></button>
     </div>
 </div>
 <div class="row">
@@ -27,7 +27,7 @@
         <button class="btn waves-effect waves-light green" type="submit" onclick="location.href='@Url.Action("ChangePassword", "ChangePassword")'">Add Concentration<i class="material-icons right">send</i></button>
     </div>
     <div class="col s6 ">
-        <button class="btn waves-effect waves-light red" type="submit" onclick="location.href='@Url.Action("EditStudentDetails", "EditStudentDetails")'">Edit Student Details<i class="material-icons right">send</i></button>
+        <button class="btn waves-effect waves-light blue" type="submit" onclick="location.href='@Url.Action("StudentsList", "EditStudent")'">Edit Student Details<i class="material-icons right">send</i></button>
     </div>
 </div>
 <div class="row">

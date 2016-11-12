@@ -107,6 +107,9 @@
     <Content Include="Images\University_of_Central_Missouri_logo.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Helpers\XmlEntities\Comments.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -133,18 +136,23 @@
     <Compile Include="Controllers\EditStudentDetailsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\QuestionnaireController.cs" />
+    <Compile Include="Controllers\UpdateAdvisorController.cs" />
     <Compile Include="Controllers\ViewStudentDetailsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AsyncEmulator.cs" />
+    <Compile Include="Helpers\ConfigureComments.cs" />
     <Compile Include="Helpers\PasswordGenerator.cs" />
     <Compile Include="Helpers\StaticVariables.cs" />
+    <Compile Include="Helpers\XmlEntities\Comments.cs">
+      <DependentUpon>Comments.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Major.cs" />
     <Compile Include="Models\Program.cs" />
     <Compile Include="Models\Role.cs" />
-    <Compile Include="Models\StudentInfo.cs" />
     <Compile Include="Models\Student_AcademicStatus.cs" />
     <Compile Include="Models\Student_TrainingStatus.cs" />
     <Compile Include="Models\Training.cs" />
@@ -158,6 +166,8 @@
     <Compile Include="ViewModels\Course.cs" />
     <Compile Include="ViewModels\LoginDetails.cs" />
     <Compile Include="ViewModels\PrerequisiteCourses.cs" />
+    <Compile Include="ViewModels\QuestionnaireAnswers.cs" />
+    <Compile Include="ViewModels\QuestionnaireQuestions.cs" />
     <Compile Include="ViewModels\StudentAdvisingData.cs" />
     <Compile Include="ViewModels\StudentData.cs" />
     <Compile Include="ViewModels\StudentId.cs" />
@@ -180,6 +190,9 @@
     <Content Include="Views\Home\Advisor.cshtml" />
     <Content Include="Views\Home\Director.cshtml" />
     <Content Include="Views\AddCourse\AddCourse.cshtml" />
+    <Content Include="Views\Questionnaire\FillQuestionnaire.cshtml" />
+    <Content Include="Views\EditStudent\StudentsList.cshtml" />
+    <Content Include="Views\ChangePassword\ChangePassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -190,7 +203,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AddPrereqs\" />
-    <Folder Include="Views\ChangePassword\" />
+    <Folder Include="Views\UpdateAdvisor\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using MBASite.Models;
 using MBASite.ViewModels;
 using MBASite.Helpers;
+using System.Web.Script.Serialization;
+using System.Net.Http;
+using System.Text;
 
 namespace MBASite.Controllers
 {
@@ -30,7 +33,7 @@ namespace MBASite.Controllers
                 StaticVariables.AdvisorDetails.Add(details);
                 return View(new AdvisorData());
             }
-            return View(details);
+            return View(advisorData);
         }
 
         private void populateAdvisorDetails(UCMModerator details, AdvisorData data)
@@ -50,7 +53,19 @@ namespace MBASite.Controllers
 
         private bool PostToApi(UCMModerator details)
         {
-            // TO-DO
+            string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
+            string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["addAdvisor"];
+            var jsonString = new JavaScriptSerializer().Serialize(details);
+            var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            using (var client = new HttpClient())
+            {
+                var httpResponse = client.PostAsync(url + uri, httpContent).Result;
+                if (httpResponse.Content != null)
+                {
+                    var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
+                    return responseContent.Equals("\"Success\"") ? true : false;
+                }
+            }
             return false;
         }
     }

@@ -9,133 +9,19 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<div class="container" style="min-height:500px;padding-top:100px;">
-    <form class="col s12">
-        <div class="row">
-            <div class="input-field col s6">
-                <input placeholder="700#" id="Std_ID" type="text" class="validate" required>
-                <label for="name">Enter Student 700#</label>
-            </div>
-        </div>
+<table class="table">
+    <tr>
+        <th></th>
+    </tr>
 
-        <div class="row">
-            <div class="col s4">
-                <button id="getDetails" class="btn waves-effect waves-light blue" type="submit">Get Details<i class="material-icons right">send</i></button>
-            </div>
-            <div class="col s4">
-                <button id="cancel" class="btn waves-effect waves-light red" type="submit">Cancel<i class="material-icons right">clear</i></button>
-            </div>
-        </div>
-        <div id="hiddn" hidden>
-            <div class="row">
-                <div class="input-field col s6">
-                    <label for="std_sn">Student 700#</label>
-                    <input id="std_sn" type="text" readonly="readonly">
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s6">
-                    <label for="std_fn">First Name</label>
-                    <input id="std_fn" type="text" readonly="readonly">
-                </div>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
 
-                <div class="input-field col s6">
-                    <label for="std_ln">Last Name</label>
-                    <input id="std_ln" type="text" readonly="readonly">
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s6">
-                    <label for="std_cn">Concentration</label>
-                    <input id="std_cn" type="text">
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s6">
-                    <p><label for="std_Adv">Advisor</label></p>
-                    <select>
-                        <option value="" disabled="disabled" selected="selected">Choose your option</option>
-                        <option value="Sports">Sports</option>
-                        <option value="Bussiness">Business</option>
-                        <option value="Accounting">Accounting</option>
-                        <option value="Finance">Finance</option>
-                        <option value="Information Systems">Information Systems</option>
-                        <option value="Marketing">Marketing</option>
-                        <option value="General">General</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s4">
-                    <label for="std_Ag">Approved for Graduation</label>
-                </div>
-                <div class="input-field col s4">
-                    <input name="group1" type="radio" id="yes1" value="yes" />
-                    <label for="yes1">YES</label>
-                    <input name="group1" type="radio" id="no1" value="no" />
-                    <label for="no1">NO</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s6">
-                    <p><label>Program status</label></p>
-                    <select>
-                        <option value="" disabled="disabled" selected="selected">Choose your option</option>
-                        <option value="AccProgram">Accepted into Program</option>
-                        <option value="Bussiness">Withdrawn from Program</option>
-                        <option value="Accounting">Accepted with Conditions</option>
-
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s6">
-                    <textarea id="std_notes" class="materialize-textarea"></textarea>
-
-                    <label for="std_notes">Comments</label>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="input-field col s6">
-                    <a href="#">Check Questionnaire</a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col s4">
-                    <button class="btn waves-effect waves-light blue" type="submit">Edit<i class="material-icons right">clear</i></button>
-                </div>
-                <div class="col s4">
-                    <button class="btn waves-effect waves-light green" type="submit">Save<i class="material-icons right">send</i></button>
-                </div>
-                <div class="col s4">
-
-                    <button class="btn waves-effect waves-light red" type="submit">Cancel<i class="material-icons right">cancel</i></button>
-                </div>
-            </div>
-
-
-        </div>
-    </form>
-</div>
-
-<script>
-    $(document).ready(function () {
-    $('select').material_select();
-    });
-    $("#getDetails").click(function () {
-        if ($("#hiddn").css('display') == 'none') {
-            $("#hiddn").show();
-        }
-    });
-    $("#cancel").click(function () {
-        if ($("#hiddn").css('display') == 'block') {
-            $("#hiddn").hide();
-        }
-    });
-
-</script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+</table>

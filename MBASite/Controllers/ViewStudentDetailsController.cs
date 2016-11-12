@@ -13,45 +13,37 @@ namespace MBASite.Controllers
 {
     public class ViewStudentDetailsController : Controller
     {
-        List<UCMStudent> studentDetails;
-        List<Program> programs;
-        List<StudentData> studentData;
-        
+        UCMStudent student;
+        StudentData data;
         public ViewStudentDetailsController()
         {
-            studentDetails = new List<UCMStudent>();
-            programs = new List<Program>();
-            studentData = new List<StudentData>();
-            studentDetails = AsyncEmulator.EmulateAsync<UCMStudent>("getStudents");
-            programs = AsyncEmulator.EmulateAsync<Program>("getPrograms");
-            populateStudentData();
+            student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == Convert.ToInt32(User.Identity.Name));
         }
 
         // GET: ViewStudentDetails
         public ActionResult ViewStudentDetails()
         {
-            return View(studentData);
+            if (student.Training.Name.Equals("Due"))
+                return RedirectToAction("FillQuestionnaire", "Questionnaire");
+            populateStudentData();
+            return View(data);
         }
-        
+
         private void populateStudentData()
         {
-            foreach(var details in studentDetails)
-            {
-                var data = new StudentData();
-                data.Address = details.Address;
-                data.Comments = details.Comments;
-                data.Concentration = programs.Find(p=>p.Id == details.ProgramId).Name;
-                data.FirstName = details.FirstName;
-                data.Id = details.Id;
-                data.LastName = details.LastName;
-                data.NonUCMOEmailId = details.AlternateEmail;
-                data.PhoneNumber = details.PhoneNumber;
-                //data.ProgramEntryDate = details.CreatedDate;
-                data.GMATScore = details.GMATScore.HasValue ? details.GMATScore.Value : 0;
-                data.GREScore = details.GREScore.HasValue ? details.GMATScore.Value : 0;
-                data.UCMOEmailId = details.Email;
-                studentData.Add(data);
-            }
+            data = new StudentData();
+            data.Address = student.Address;
+            data.Comments = student.Comments;
+            data.Concentration = StaticVariables.Programs.Find(p => p.Id == student.ProgramId).Name;
+            data.FirstName = student.FirstName;
+            data.Id = student.Id;
+            data.LastName = student.LastName;
+            data.NonUCMOEmailId = student.AlternateEmail;
+            data.PhoneNumber = student.PhoneNumber;
+            data.ProgramEntryDate = student.CreatedDate;
+            data.GMATScore = student.GMATScore.Value;
+            data.GREScore = student.GREScore.Value;
+            data.UCMOEmailId = student.Email;
         }
     }
 }

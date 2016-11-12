@@ -6,18 +6,18 @@ using System.Web.Mvc;
 using MBASite.ViewModels;
 using MBASite.Helpers;
 using MBASite.Models;
+using System.Web.Script.Serialization;
+using System.Net.Http;
+using System.Text;
 
 namespace MBASite.Controllers
 {
     public class EditStudentDetailsController : Controller
     {
-        
-        UCMStudent Student;
-        StudentData StudentData;
+        int studentId;
         // GET: EditStudentDetails
         public ActionResult EditStudentDetails()
         {
-            int studentId = 0;
             if((StaticVariables.Role.Equals("Advisor") || StaticVariables.Role.Equals("Director")) && TempData["studentData"]!=null)
             {
                 if(TempData.ContainsKey("student"))
@@ -29,47 +29,64 @@ namespace MBASite.Controllers
             {
                 studentId = int.Parse(User.Identity.Name);
             }
-            Student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == studentId);
-            StudentData = populateData(studentId);
+            var Student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == studentId);
+            var StudentData = populateData(studentId);
             return View(StudentData);
         }
 
         [HttpPost]
         public ActionResult EditStudentDetails(StudentData studentData)
         {
-            Student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == studentData.Id);
-            updateData(studentData);
-            //
-            //
-            // To-do 
-            // Update Database using Web Api
-            // Update Web Api to handle edit student details
-            //
-            //
+            var Student = updateData(studentData);
+            bool status = postToWebApi(Student);
+            if(status)
+            {
+                studentData = new StudentData();
+            }
             return View(studentData);
+        }
+
+        private bool postToWebApi(UCMStudent student)
+        {
+            string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
+            string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["updateStudent"];
+            var jsonString = new JavaScriptSerializer().Serialize(student);
+            var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            using (var client = new HttpClient())
+            {
+                var httpResponse = client.PostAsync(url + uri, httpContent).Result;
+                if (httpResponse.Content != null)
+                {
+                    var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
+                    return responseContent.Equals("\"Success\"") ? true : false;
+                }
+            }
+            return false;
         }
 
         public StudentData populateData(int id)
         {
             UCMStudent studentDetails = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == id);
-            StudentData.Id = studentDetails.Id;
-            StudentData.Address = studentDetails.Address;
-            StudentData.Comments = studentDetails.Comments;
-            StudentData.Concentration = StaticVariables.Programs.FirstOrDefault(p => p.Id == studentDetails.ProgramId).Name;
-            StudentData.FirstName = studentDetails.FirstName;
-            StudentData.GMATScore = studentDetails.GMATScore.HasValue ? studentDetails.GMATScore.Value : 0;
-            StudentData.GPA = studentDetails.GPA;
-            StudentData.GREScore = studentDetails.GREScore.HasValue ? studentDetails.GREScore.Value : 0;
-            StudentData.LastName = studentDetails.LastName;
-            StudentData.NonUCMOEmailId = studentDetails.AlternateEmail;
-            StudentData.PhoneNumber = studentDetails.PhoneNumber;
-            StudentData.ProgramEntryDate = studentDetails.CreatedDate;
-            StudentData.UCMOEmailId = studentDetails.Email;
-            return StudentData;
+            var studentData = new StudentData();
+            studentData.Id = studentDetails.Id;
+            studentData.Address = studentDetails.Address;
+            studentData.Comments = studentDetails.Comments;
+            studentData.Concentration = StaticVariables.Programs.FirstOrDefault(p => p.Id == studentDetails.ProgramId).Name;
+            studentData.FirstName = studentDetails.FirstName;
+            studentData.GMATScore = studentDetails.GMATScore.HasValue ? studentDetails.GMATScore.Value : 0;
+            studentData.GPA = studentDetails.GPA;
+            studentData.GREScore = studentDetails.GREScore.HasValue ? studentDetails.GREScore.Value : 0;
+            studentData.LastName = studentDetails.LastName;
+            studentData.NonUCMOEmailId = studentDetails.AlternateEmail;
+            studentData.PhoneNumber = studentDetails.PhoneNumber;
+            studentData.ProgramEntryDate = studentDetails.CreatedDate;
+            studentData.UCMOEmailId = studentDetails.Email;
+            return studentData;
         }
         
-        public void updateData(StudentData studentData)
+        public UCMStudent updateData(StudentData studentData)
         {
+            var Student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == studentData.Id);
             Student.Address = studentData.Address;
             Student.Comments = studentData.Comments;
             Student.ProgramId = StaticVariables.Programs.FirstOrDefault(p => p.Name.Equals(studentData.Concentration)).Id;
@@ -84,7 +101,7 @@ namespace MBASite.Controllers
             Student.Email = studentData.UCMOEmailId;
             StaticVariables.StudentDetails.RemoveAll(x => x.Id == Student.Id);
             StaticVariables.StudentDetails.Add(Student);
-
+            return Student;
         }
     }
 }

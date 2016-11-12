@@ -16,6 +16,7 @@ namespace MBASite.ViewModels
         public string NewPassword { get; set; }
         [Required]
         [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 }

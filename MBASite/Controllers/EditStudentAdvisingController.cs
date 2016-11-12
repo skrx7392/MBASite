@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using MBASite.ViewModels;
 using MBASite.Models;
 using MBASite.Helpers;
+using System.Web.Script.Serialization;
+using System.Net.Http;
+using System.Text;
 
 namespace MBASite.Controllers
 {
@@ -26,9 +29,30 @@ namespace MBASite.Controllers
         public ActionResult EditStudentAdvising(StudentAdvisingData data)
         {
             updateStudentDetails(data, studentDetails);
-            //TO-DO
-            //Post to Web Api
-            return View(new StudentAdvisingData());
+            bool status = postToWebApi(studentDetails);
+            if(status)
+            {
+                return View(new StudentAdvisingData());
+            }
+            return View(data);
+        }
+
+        private bool postToWebApi(UCMStudent studentDetails)
+        {
+            string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
+            string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["addStudent"];
+            var jsonString = new JavaScriptSerializer().Serialize(studentDetails);
+            var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            using (var client = new HttpClient())
+            {
+                var httpResponse = client.PostAsync(url + uri, httpContent).Result;
+                if (httpResponse.Content != null)
+                {
+                    var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
+                    return responseContent.Equals("Success") ? true : false;
+                }
+            }
+            return false;
         }
 
         private void populateData(StudentAdvisingData studentData, UCMStudent details)

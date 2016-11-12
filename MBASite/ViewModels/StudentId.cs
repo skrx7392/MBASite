@@ -7,6 +7,6 @@ namespace MBASite.ViewModels
 {
     public class StudentId
     {
-        public int Id { get; set; }
+        public List<int> Id { get; set; }
     }
 }

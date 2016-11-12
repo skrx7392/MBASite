@@ -28,6 +28,10 @@ namespace MBASite.Controllers
         // GET: Login
         public ActionResult LoginPage()
         {
+            if(User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("LogOff");
+            }
             return View(details);
         }
 
