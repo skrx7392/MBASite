@@ -1,17 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace MBASite.ViewModels
 {
     public class AdvisorData
     {
+        [DisplayName("Advisor ID")]
         public int AdvisorId { get; set; }
+        [DisplayName("First Name")]
         public string FirstName { get; set; }
+        [DisplayName("Last Name")]
         public string LastName { get; set; }
+        [DisplayName("Concentration")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+        [DisplayName("Concentration")]
         public string Concentration { get; set; }
+        [DisplayName("Email")]
         public string Email { get; set; }
+        [DisplayName("Status")]
         public bool Status { get; set; }
     }
 }
