@@ -21,7 +21,7 @@ namespace MBASite.Controllers
         /// /// <summary>
         /// Returns a view to select a particular student from a dropdown
         /// </summary>
-        /// <returns></returns
+        /// <returns></returns>
         public ActionResult StudentsList()
         {
             List<StudentId> Students = new List<StudentId>();

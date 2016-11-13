@@ -124,10 +124,12 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AddAdvisorController.cs" />
+    <Compile Include="Controllers\AddConcentrationController.cs" />
     <Compile Include="Controllers\AddCourseController.cs" />
     <Compile Include="Controllers\AddPrereqsController.cs" />
     <Compile Include="Controllers\AddStudentController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
+    <Compile Include="Controllers\EditConcentrationController.cs" />
     <Compile Include="Controllers\EditStudentAdvisingController.cs" />
     <Compile Include="Controllers\EditStudentController.cs" />
     <Compile Include="Controllers\EditStudentDetailsController.cs" />
@@ -167,6 +169,7 @@
     <Compile Include="ViewModels\StudentAdvisingData.cs" />
     <Compile Include="ViewModels\StudentData.cs" />
     <Compile Include="ViewModels\StudentId.cs" />
+    <Compile Include="ViewModels\ViewProgram.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -193,6 +196,9 @@
     <Content Include="Views\UpdateAdvisor\UpdateAdvisor.cshtml" />
     <Content Include="Views\UpdateAdvisor\UpdateAdvisorData.cshtml" />
     <Content Include="Views\AddPrereqs\GetCourse.cshtml" />
+    <Content Include="Views\AddConcentration\AddConcentration.cshtml" />
+    <Content Include="Views\EditConcentration\EditConcentrationList.cshtml" />
+    <Content Include="Views\EditConcentration\EditConcentration.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
