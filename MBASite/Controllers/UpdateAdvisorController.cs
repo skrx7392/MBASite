@@ -57,32 +57,14 @@ namespace MBASite.Controllers
         {
             var details = StaticVariables.AdvisorDetails.FirstOrDefault(p => p.Id == data.AdvisorId);
             UpdateAdvisorDetails(details, data);
-            bool status = PostToWebApi(details);
+            bool status = ContactApi.PostToApi<UCMModerator>(details, "updateAdvisor");
             if(status)
             {
                 return RedirectToAction("UpdateAdvisor");
             }
             return View(data);
         }
-
-        private bool PostToWebApi(UCMModerator details)
-        {
-            string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
-            string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["updateAdvisor"];
-            var jsonString = new JavaScriptSerializer().Serialize(details);
-            var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            using (var client = new HttpClient())
-            {
-                var httpResponse = client.PostAsync(url + uri, httpContent).Result;
-                if (httpResponse.Content != null)
-                {
-                    var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
-                    return responseContent.Equals("\"Success\"") ? true : false;
-                }
-            }
-            return false;
-        }
-
+        
         private void UpdateAdvisorDetails(UCMModerator details, AdvisorData data)
         {
             details.programId = StaticVariables.Programs.FirstOrDefault(p=>p.Name.Equals(data.Concentration)).Id.ToString();

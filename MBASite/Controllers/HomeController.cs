@@ -15,11 +15,11 @@ namespace MBASite.Controllers
         // GET: Home
         public ActionResult Student()
         {
-            StaticVariables.StudentDetails = AsyncEmulator.EmulateAsync<UCMStudent>("getStudents");
-            StaticVariables.Roles = AsyncEmulator.EmulateAsync<Role>("getRoles");
-            StaticVariables.TrainingStatuses = AsyncEmulator.EmulateAsync<Student_TrainingStatus>("getStudentTrainingStatus");
-            StaticVariables.Trainings = AsyncEmulator.EmulateAsync<Training>("getTrainingRepo");
-            StaticVariables.AcademicStatuses = AsyncEmulator.EmulateAsync<Student_AcademicStatus>("getStudentAcademicStatus");
+            StaticVariables.StudentDetails = ContactApi.GetDataFromApi<UCMStudent>("getStudents");
+            StaticVariables.Roles = ContactApi.GetDataFromApi<Role>("getRoles");
+            StaticVariables.TrainingStatuses = ContactApi.GetDataFromApi<Student_TrainingStatus>("getStudentTrainingStatus");
+            StaticVariables.Trainings = ContactApi.GetDataFromApi<Training>("getTrainingRepo");
+            StaticVariables.AcademicStatuses = ContactApi.GetDataFromApi<Student_AcademicStatus>("getStudentAcademicStatus");
             ViewBag.Title = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == int.Parse(User.Identity.Name)).FirstName;
             UCMStudent student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == int.Parse(User.Identity.Name));
             if (StaticVariables.TrainingStatuses.FirstOrDefault(p => p.Id == student.Id).TrainingStatus.ToLower().Equals("Due".ToLower()))
@@ -31,28 +31,28 @@ namespace MBASite.Controllers
 
         public ActionResult Advisor()
         {
-            StaticVariables.StudentDetails = AsyncEmulator.EmulateAsync<UCMStudent>("getStudents");
-            StaticVariables.AdvisorDetails = AsyncEmulator.EmulateAsync<UCMModerator>("getAdvisors");
-            StaticVariables.Programs = AsyncEmulator.EmulateAsync<Program>("getPrograms");
-            StaticVariables.Courses = AsyncEmulator.EmulateAsync<Models.Course>("getCourses");
-            StaticVariables.Roles = AsyncEmulator.EmulateAsync<Role>("getRoles");
-            StaticVariables.TrainingStatuses = AsyncEmulator.EmulateAsync<Student_TrainingStatus>("getStudentTrainingStatus");
-            StaticVariables.Trainings = AsyncEmulator.EmulateAsync<Training>("getTrainingRepo");
-            StaticVariables.AcademicStatuses = AsyncEmulator.EmulateAsync<Student_AcademicStatus>("getStudentAcademicStatus");
+            StaticVariables.StudentDetails = ContactApi.GetDataFromApi<UCMStudent>("getStudents");
+            StaticVariables.AdvisorDetails = ContactApi.GetDataFromApi<UCMModerator>("getAdvisors");
+            StaticVariables.Programs = ContactApi.GetDataFromApi<Program>("getPrograms");
+            StaticVariables.Courses = ContactApi.GetDataFromApi<Models.Course>("getCourses");
+            StaticVariables.Roles = ContactApi.GetDataFromApi<Role>("getRoles");
+            StaticVariables.TrainingStatuses = ContactApi.GetDataFromApi<Student_TrainingStatus>("getStudentTrainingStatus");
+            StaticVariables.Trainings = ContactApi.GetDataFromApi<Training>("getTrainingRepo");
+            StaticVariables.AcademicStatuses = ContactApi.GetDataFromApi<Student_AcademicStatus>("getStudentAcademicStatus");
             ViewBag.Title = StaticVariables.AdvisorDetails.FirstOrDefault(p => p.Id == int.Parse(User.Identity.Name)).FirstName;
             return View();
         }
 
         public ActionResult Director()
         {
-            StaticVariables.StudentDetails = AsyncEmulator.EmulateAsync<UCMStudent>("getStudents");
-            StaticVariables.AdvisorDetails = AsyncEmulator.EmulateAsync<UCMModerator>("getAdvisors");
-            StaticVariables.Programs = AsyncEmulator.EmulateAsync<Program>("getPrograms");
-            StaticVariables.Courses = AsyncEmulator.EmulateAsync<Models.Course>("getCourses");
-            StaticVariables.Roles = AsyncEmulator.EmulateAsync<Role>("getRoles");
-            StaticVariables.TrainingStatuses = AsyncEmulator.EmulateAsync<Student_TrainingStatus>("getStudentTrainingStatus");
-            StaticVariables.Trainings = AsyncEmulator.EmulateAsync<Training>("getTrainingRepo");
-            StaticVariables.AcademicStatuses = AsyncEmulator.EmulateAsync<Student_AcademicStatus>("getStudentAcademicStatus");
+            StaticVariables.StudentDetails = ContactApi.GetDataFromApi<UCMStudent>("getStudents");
+            StaticVariables.AdvisorDetails = ContactApi.GetDataFromApi<UCMModerator>("getAdvisors");
+            StaticVariables.Programs = ContactApi.GetDataFromApi<Program>("getPrograms");
+            StaticVariables.Courses = ContactApi.GetDataFromApi<Models.Course>("getCourses");
+            StaticVariables.Roles = ContactApi.GetDataFromApi<Role>("getRoles");
+            StaticVariables.TrainingStatuses = ContactApi.GetDataFromApi<Student_TrainingStatus>("getStudentTrainingStatus");
+            StaticVariables.Trainings = ContactApi.GetDataFromApi<Training>("getTrainingRepo");
+            StaticVariables.AcademicStatuses = ContactApi.GetDataFromApi<Student_AcademicStatus>("getStudentAcademicStatus");
             ViewBag.Title = "Mr. Director";
             return View();
         }

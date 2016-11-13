@@ -38,7 +38,7 @@ namespace MBASite.Controllers
         public ActionResult EditStudentDetails(StudentData studentData)
         {
             var Student = updateData(studentData);
-            bool status = postToWebApi(Student);
+            bool status = ContactApi.PostToApi<UCMStudent>(Student, "updateStudent");
             if(status)
             {
                 studentData = new StudentData();

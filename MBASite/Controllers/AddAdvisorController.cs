@@ -14,11 +14,10 @@ namespace MBASite.Controllers
 {
     public class AddAdvisorController : Controller
     {
-        AdvisorData advisorData;
         // GET: AddAdvisor
         public ActionResult AddAdvisor()
         {
-            advisorData = new AdvisorData();
+            var advisorData = new AdvisorData();
             return View(advisorData);
         }
 
@@ -27,7 +26,7 @@ namespace MBASite.Controllers
         {
             UCMModerator details = new UCMModerator();
             populateAdvisorDetails(details, advisorData);
-            bool added = PostToApi(details);
+            bool added = ContactApi.PostToApi<UCMModerator>(details, "addAdvisor");
             if(added)
             {
                 StaticVariables.AdvisorDetails.Add(details);
@@ -46,27 +45,9 @@ namespace MBASite.Controllers
             details.LastName = data.LastName;
             details.ModifiedDate = DateTime.Now;
             details.Password = PasswordGenerator.HashPassword(PasswordGenerator.GeneratePassword());
-            details.Role = StaticVariables.Roles.FirstOrDefault(p => p.Name.Equals("Advisor"));
+            details.Role = null;
             details.programId = StaticVariables.Programs.FirstOrDefault(p => p.Name.Equals(data.Concentration)).Id.ToString();
-            details.RoleId = details.Role.Id;
-        }
-
-        private bool PostToApi(UCMModerator details)
-        {
-            string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
-            string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["addAdvisor"];
-            var jsonString = new JavaScriptSerializer().Serialize(details);
-            var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            using (var client = new HttpClient())
-            {
-                var httpResponse = client.PostAsync(url + uri, httpContent).Result;
-                if (httpResponse.Content != null)
-                {
-                    var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
-                    return responseContent.Equals("\"Success\"") ? true : false;
-                }
-            }
-            return false;
+            details.RoleId = StaticVariables.Roles.FirstOrDefault(p => p.Name.Equals("Advisor")).Id;
         }
     }
 }

@@ -10,29 +10,33 @@
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
+        <a href="~/Views/Shared/_Layout.cshtml">~/Views/Shared/_Layout.cshtml</a>
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button></div>
-           
+                </button>
+            </div>
+
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav col-md-12">
-                    <li> <a href="#" class="navbar-brand"><img src="~/Images/university-of-central-missouri_2014-03-31_14-48-47.978.jpg" style="height:40px;width:130px;" /></a>
-           </li>
+                    <li>
+                        <a href="#" class="navbar-brand"><img src="~/Images/university-of-central-missouri_2014-03-31_14-48-47.978.jpg" style="height:40px;width:130px;" /></a>
+                    </li>
                     <li style="margin-top:5px">@Html.ActionLink("Home", "", "")</li>
-                    <li style="margin-top:5px" >@Html.ActionLink("About Us", "", "")</li>
-                    <li class="col-md-push-7" style="margin-top:5px">@if (Request.IsAuthenticated)
-                    {
-                        @Html.ActionLink("Log Out", "LogOff", "Login")
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Login", "LoginPage", "Login")
-                    }
-</li>
+                    <li style="margin-top:5px">@Html.ActionLink("About Us", "", "")</li>
+                    <li class="col-md-push-7" style="margin-top:5px">
+                        @if (Request.IsAuthenticated)
+                        {
+                            @Html.ActionLink("Log Out", "LogOff", "Login")
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Login", "LoginPage", "Login")
+                        }
+                    </li>
                 </ul>
             </div>
         </div>
@@ -54,5 +58,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+
+    <style type="text/css">
+        [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+            position: relative;
+            left: 0;
+            visibility: visible;
+        }
+    </style>
 </body>
 </html>

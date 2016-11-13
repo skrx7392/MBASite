@@ -17,46 +17,30 @@ namespace MBASite.Controllers
         // GET: AddCourse
         public ActionResult AddCourse()
         {
-            Models.Course course = new Models.Course();
+            ViewModels.CourseInfo course = new ViewModels.CourseInfo();
             return View(course);
         }
 
         [HttpPost]
-        public ActionResult AddCourse(Models.Course course)
+        public ActionResult AddCourse(ViewModels.CourseInfo course)
         {
-            bool added = postToWebApi(course);
+            Models.Course courseInfo = new Models.Course();
+            populateCourse(courseInfo, course);
+            bool added = ContactApi.PostToApi<Course>(courseInfo, "addCourse");
             if(added)
             {
-                StaticVariables.Courses.Add(course);
-                return View(new ViewModels.Course());
+                StaticVariables.Courses.Add(courseInfo);
+                return View(new ViewModels.CourseInfo());
             }
             return View(course);
         }
 
-        private void populateCourse(Models.Course modelCourse, ViewModels.Course course)
+        private void populateCourse(Models.Course modelCourse, ViewModels.CourseInfo course)
         {
             modelCourse.CCode = course.ConcentrationCode;
             modelCourse.CourseNumber = course.CourseNumber.ToString();
             modelCourse.Name = course.CourseName;
             modelCourse.PreqId = string.Empty;
-        }
-
-        private bool postToWebApi(Models.Course course)
-        {
-            string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
-            string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["addCourse"];
-            var jsonString = new JavaScriptSerializer().Serialize(course);
-            var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            using (var client = new HttpClient())
-            {
-                var httpResponse = client.PostAsync(url + uri, httpContent).Result;
-                if (httpResponse.Content != null)
-                {
-                    var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
-                    return responseContent.Equals("Success") ? true : false;
-                }
-            }
-            return false;
         } 
     }
 }

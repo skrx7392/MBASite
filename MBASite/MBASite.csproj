@@ -107,9 +107,6 @@
     <Content Include="Images\University_of_Central_Missouri_logo.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Helpers\XmlEntities\Comments.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -143,13 +140,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Helpers\AsyncEmulator.cs" />
+    <Compile Include="Helpers\ContactApi.cs" />
+    <Compile Include="Helpers\Comments.cs" />
     <Compile Include="Helpers\ConfigureComments.cs" />
     <Compile Include="Helpers\PasswordGenerator.cs" />
     <Compile Include="Helpers\StaticVariables.cs" />
-    <Compile Include="Helpers\XmlEntities\Comments.cs">
-      <DependentUpon>Comments.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Major.cs" />
     <Compile Include="Models\Program.cs" />
@@ -164,7 +159,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AdvisorData.cs" />
     <Compile Include="ViewModels\ChangePassword.cs" />
-    <Compile Include="ViewModels\Course.cs" />
+    <Compile Include="ViewModels\CourseInfo.cs" />
     <Compile Include="ViewModels\LoginDetails.cs" />
     <Compile Include="ViewModels\PrerequisiteCourses.cs" />
     <Compile Include="ViewModels\QuestionnaireAnswers.cs" />
@@ -197,6 +192,7 @@
     <Content Include="Views\EditStudent\StudentsList.cshtml" />
     <Content Include="Views\UpdateAdvisor\UpdateAdvisor.cshtml" />
     <Content Include="Views\UpdateAdvisor\UpdateAdvisorData.cshtml" />
+    <Content Include="Views\AddPrereqs\GetCourse.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

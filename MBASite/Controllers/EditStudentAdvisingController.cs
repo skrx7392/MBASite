@@ -29,30 +29,12 @@ namespace MBASite.Controllers
         public ActionResult EditStudentAdvising(StudentAdvisingData data)
         {
             studentDetails = updateStudentDetails(data);
-            bool status = postToWebApi(studentDetails);
+            bool status = ContactApi.PostToApi<UCMStudent>(studentDetails, "updateStudent");
             if(status)
             {
                 return View(new StudentAdvisingData());
             }
             return View(data);
-        }
-
-        private bool postToWebApi(UCMStudent studentDetails)
-        {
-            string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
-            string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["updateStudent"];
-            var jsonString = new JavaScriptSerializer().Serialize(studentDetails);
-            var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            using (var client = new HttpClient())
-            {
-                var httpResponse = client.PostAsync(url + uri, httpContent).Result;
-                if (httpResponse.Content != null)
-                {
-                    var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
-                    return responseContent.Equals("\"Success\"") ? true : false;
-                }
-            }
-            return false;
         }
 
         private void populateData(StudentAdvisingData studentData, UCMStudent details)

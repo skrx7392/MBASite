@@ -2,7 +2,7 @@
 
 namespace MBASite.ViewModels
 {
-    public class Course
+    public class CourseInfo
     {
         public string ConcentrationCode { get; set; }
         public int CourseNumber { get; set; }

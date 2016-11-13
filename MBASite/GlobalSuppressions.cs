@@ -6,4 +6,5 @@
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CC0091:Use static method", Justification = "<Pending>", Scope = "member", Target = "~M:MBASite.Controllers.UpdateAdvisorController.populateData(MBASite.ViewModels.AdvisorData,MBASite.Models.UCMModerator)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "CC0001:You should use 'var' whenever possible.", Justification = "<Pending>", Scope = "member", Target = "~M:MBASite.Controllers.UpdateAdvisorController.UpdateAdvisor(MBASite.ViewModels.StudentId)~System.Web.Mvc.ActionResult")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "CC0001:You should use 'var' whenever possible.", Justification = "<Pending>", Scope = "member", Target = "~M:MBASite.Models.Major.#ctor")]
 

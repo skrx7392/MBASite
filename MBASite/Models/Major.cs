@@ -6,11 +6,13 @@ namespace MBASite.Models
     {
         public Major()
         {
-            this.Programs = new HashSet<Program>();
+            HashSet<Program> hs = new HashSet<Program>();
+            this.Programs = new List<Program>(hs);
         }
 
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<Program> Programs { get; set; }
+
+        public virtual List<Program> Programs { get; set; }
     }
 }

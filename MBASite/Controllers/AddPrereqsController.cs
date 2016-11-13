@@ -4,18 +4,18 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MBASite.ViewModels;
+using MBASite.Models;
+using MBASite.Helpers;
 
 namespace MBASite.Controllers
 {
     public class AddPrereqsController : Controller
     {
-        PrerequisiteCourses prereqs;
-        
         // GET: AddPrereqs
         public ActionResult AddPrereqs()
         {
             //TO-DO
-            return View(prereqs);
+            return View();
         }
 
         [HttpPost]
@@ -23,6 +23,18 @@ namespace MBASite.Controllers
         {
             //TO-DO
             return View(new PrerequisiteCourses());
+        }
+
+        public ActionResult GetCourse()
+        {
+            StaticVariables.Courses = ContactApi.GetDataFromApi<Models.Course>("getCourses");
+            return View(StaticVariables.Courses);
+        }
+
+        [HttpPost]
+        public ActionResult GetCourses(Models.Course courseInfo)
+        {
+            return View();
         }
     }
 }
