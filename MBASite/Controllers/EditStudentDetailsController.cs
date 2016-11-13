@@ -15,7 +15,11 @@ namespace MBASite.Controllers
     public class EditStudentDetailsController : Controller
     {
         int studentId;
-        // GET: EditStudentDetails
+        
+        /// <summary>
+        /// Returns a view to edit student details
+        /// </summary>
+        /// <returns></returns>
         public ActionResult EditStudentDetails()
         {
             if((StaticVariables.Role.Equals("Advisor") || StaticVariables.Role.Equals("Director")) && TempData["studentData"]!=null)
@@ -34,6 +38,11 @@ namespace MBASite.Controllers
             return View(StudentData);
         }
 
+        /// <summary>
+        /// Receives form data of updated student details
+        /// </summary>
+        /// <param name="studentData"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult EditStudentDetails(StudentData studentData)
         {
@@ -46,24 +55,11 @@ namespace MBASite.Controllers
             return View(studentData);
         }
 
-        private bool postToWebApi(UCMStudent student)
-        {
-            string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
-            string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["updateStudent"];
-            var jsonString = new JavaScriptSerializer().Serialize(student);
-            var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            using (var client = new HttpClient())
-            {
-                var httpResponse = client.PostAsync(url + uri, httpContent).Result;
-                if (httpResponse.Content != null)
-                {
-                    var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
-                    return responseContent.Equals("\"Success\"") ? true : false;
-                }
-            }
-            return false;
-        }
-
+        /// <summary>
+        /// Update viewmodel data from model 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public StudentData populateData(int id)
         {
             UCMStudent studentDetails = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == id);
@@ -84,6 +80,11 @@ namespace MBASite.Controllers
             return studentData;
         }
         
+        /// <summary>
+        /// Update model data from viewmodel data
+        /// </summary>
+        /// <param name="studentData"></param>
+        /// <returns></returns>
         public UCMStudent updateData(StudentData studentData)
         {
             var Student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == studentData.Id);

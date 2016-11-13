@@ -19,13 +19,22 @@ namespace MBASite.Controllers
     public class AddStudentController : Controller
     {
         StudentData studentData;
-        // GET: AddStudent
+
+        /// <summary>
+        /// Returns a view to add a new student
+        /// </summary>
+        /// <returns></returns>
         public ActionResult AddStudent()
         {
             studentData = new StudentData();
             return View(studentData);
         }
 
+        /// <summary>
+        /// Receives the Form data of creating a new sttudent asynchronously
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> AddStudent(StudentData data)
         {
@@ -42,6 +51,12 @@ namespace MBASite.Controllers
             return View(data);
         }
 
+        /// <summary>
+        /// Generates and sends email to the newly accepted student asynchronously
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         private async Task GenerateEmail(StudentData data, string password)
         {
             StaticVariables.StudentDetails = ContactApi.GetDataFromApi<UCMStudent>("getStudents");
@@ -67,6 +82,12 @@ namespace MBASite.Controllers
             }
         }
 
+        /// <summary>
+        /// Copies data from viewmodel to model for sending to web api
+        /// </summary>
+        /// <param name="student"></param>
+        /// <param name="data"></param>
+        /// <param name="password"></param>
         private void populateUCMStudent(UCMStudent student, StudentData data, string password)
         {
             student.Address = data.Address;
@@ -98,6 +119,12 @@ namespace MBASite.Controllers
             student.TrainingId = StaticVariables.Trainings.FirstOrDefault(p => p.Id == 1).Id;
         }
 
+        /// <summary>
+        /// Formats the Email Body using non html
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         private string EmailBody(StudentData data, string password)
         {
             string url = "http://localhost:18920/";

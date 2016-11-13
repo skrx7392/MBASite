@@ -11,12 +11,21 @@ namespace MBASite.Controllers
     {
         QuestionnaireQuestions questions;
         QuestionnaireAnswers answers;
-        // GET: Questionnaire
+        
+        /// <summary>
+        /// Returns a view which allows the student to fill questionnaire
+        /// </summary>
+        /// <returns></returns>
         public ActionResult FillQuestionnaire()
         {
             return View();
         }
 
+        /// <summary>
+        /// Receives filled questionnaire from form
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult FillQuestionnaire(int id)
         {

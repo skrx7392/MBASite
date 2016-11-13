@@ -12,15 +12,24 @@ using System.Net.Http;
 
 namespace MBASite.Controllers
 {
+    [Authorize]
     public class AddCourseController : Controller
     {
-        // GET: AddCourse
+        /// <summary>
+        /// Returns a view for creating new course
+        /// </summary>
+        /// <returns></returns>
         public ActionResult AddCourse()
         {
             ViewModels.CourseInfo course = new ViewModels.CourseInfo();
             return View(course);
         }
 
+        /// <summary>
+        /// Receives the form data of creating a new course
+        /// </summary>
+        /// <param name="course"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult AddCourse(ViewModels.CourseInfo course)
         {
@@ -35,6 +44,11 @@ namespace MBASite.Controllers
             return View(course);
         }
 
+        /// <summary>
+        /// Copies data from viewmodel to model for sending to web api
+        /// </summary>
+        /// <param name="modelCourse"></param>
+        /// <param name="course"></param>
         private void populateCourse(Models.Course modelCourse, ViewModels.CourseInfo course)
         {
             modelCourse.CCode = course.ConcentrationCode;

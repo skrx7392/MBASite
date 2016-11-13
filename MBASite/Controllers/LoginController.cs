@@ -25,7 +25,10 @@ namespace MBASite.Controllers
             details = new LoginDetails();
         }
         
-        // GET: Login
+        /// <summary>
+        /// Returns view of Login page
+        /// </summary>
+        /// <returns></returns>
         public ActionResult LoginPage()
         {
             if(User.Identity.IsAuthenticated)
@@ -35,6 +38,11 @@ namespace MBASite.Controllers
             return View(details);
         }
 
+        /// <summary>
+        /// Receives the data from login page
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult LoginPage(LoginDetails login)
         {
@@ -64,6 +72,11 @@ namespace MBASite.Controllers
             }
         }
 
+        /// <summary>
+        /// Authenticates user from web api
+        /// </summary>
+        /// <param name="details"></param>
+        /// <returns></returns>
         private bool AuthenticateUser(LoginDetails details)
         {
             string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
@@ -83,6 +96,11 @@ namespace MBASite.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the role of authenticated user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private string GetRoleOfUser(int id)
         {
             string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
@@ -99,12 +117,20 @@ namespace MBASite.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a cookie to save session data
+        /// </summary>
+        /// <param name="details"></param>
         private void CreateCookie(LoginDetails details)
         {
             StaticVariables.Role = GetRoleOfUser(int.Parse(details.Username));
             FormsAuthentication.SetAuthCookie(details.Username.ToString(), false);
         }
 
+        /// <summary>
+        /// Logs off from the application
+        /// </summary>
+        /// <returns></returns>
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();

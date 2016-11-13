@@ -12,15 +12,24 @@ using System.Text;
 
 namespace MBASite.Controllers
 {
+    [Authorize]
     public class AddAdvisorController : Controller
     {
-        // GET: AddAdvisor
+        /// <summary>
+        /// Return a view to create new advisor
+        /// </summary>
+        /// <returns></returns>
         public ActionResult AddAdvisor()
         {
             var advisorData = new AdvisorData();
             return View(advisorData);
         }
 
+        /// <summary>
+        /// Receives the form data of create new advisor
+        /// </summary>
+        /// <param name="advisorData"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult AddAdvisor(AdvisorData advisorData)
         {
@@ -35,6 +44,11 @@ namespace MBASite.Controllers
             return View(advisorData);
         }
 
+        /// <summary>
+        /// Copies data from viewmodel to model for sending to web api
+        /// </summary>
+        /// <param name="details"></param>
+        /// <param name="data"></param>
         private void populateAdvisorDetails(UCMModerator details, AdvisorData data)
         {
             details.AlternateEmail = string.Empty;
@@ -44,7 +58,7 @@ namespace MBASite.Controllers
             details.IsActive = true;
             details.LastName = data.LastName;
             details.ModifiedDate = DateTime.Now;
-            details.Password = PasswordGenerator.HashPassword(PasswordGenerator.GeneratePassword());
+            details.Password = data.Password;
             details.Role = null;
             details.programId = StaticVariables.Programs.FirstOrDefault(p => p.Name.Equals(data.Concentration)).Id.ToString();
             details.RoleId = StaticVariables.Roles.FirstOrDefault(p => p.Name.Equals("Advisor")).Id;

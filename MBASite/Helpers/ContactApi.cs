@@ -11,6 +11,12 @@ namespace MBASite.Helpers
 {
     public class ContactApi
     {
+        /// <summary>
+        /// Gets data from Web api
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="endpoint"></param>
+        /// <returns></returns>
         public static List<T> GetDataFromApi<T>(string endpoint)
         {
             string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
@@ -27,6 +33,13 @@ namespace MBASite.Helpers
             }
         }
 
+        /// <summary>
+        /// Posts data to web api
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="details"></param>
+        /// <param name="endpoint"></param>
+        /// <returns></returns>
         public static bool PostToApi<T>(T details, string endpoint)
         {
             string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];

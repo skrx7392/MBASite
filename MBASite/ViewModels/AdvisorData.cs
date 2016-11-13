@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace MBASite.ViewModels
@@ -13,8 +13,6 @@ namespace MBASite.ViewModels
         [DisplayName("Last Name")]
         public string LastName { get; set; }
         [DisplayName("Concentration")]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [DisplayName("Concentration")]

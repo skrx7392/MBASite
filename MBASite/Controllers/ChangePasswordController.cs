@@ -12,16 +12,24 @@ using System.Text;
 
 namespace MBASite.Controllers
 {
+    [Authorize]
     public class ChangePasswordController : Controller
     {
-        [Authorize]
-        // GET: ChangePassword
+        /// <summary>
+        /// Returns a view to change existing password
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ChangePassword()
         {
             var changePassword = new ChangePassword();
             return View(changePassword);
         }
 
+        /// <summary>
+        /// Receives  the form data to update the password
+        /// </summary>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult ChangePassword(ChangePassword newPassword)
         {

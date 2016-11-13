@@ -12,7 +12,10 @@ namespace MBASite.Controllers
     public class HomeController : Controller
     {
 
-        // GET: Home
+        /// <summary>
+        /// Redirects to home page of students, 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Student()
         {
             StaticVariables.StudentDetails = ContactApi.GetDataFromApi<UCMStudent>("getStudents");
@@ -29,6 +32,10 @@ namespace MBASite.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Redirects to advisor home page
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Advisor()
         {
             StaticVariables.StudentDetails = ContactApi.GetDataFromApi<UCMStudent>("getStudents");
@@ -43,6 +50,10 @@ namespace MBASite.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Redirects to director home page
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Director()
         {
             StaticVariables.StudentDetails = ContactApi.GetDataFromApi<UCMStudent>("getStudents");
