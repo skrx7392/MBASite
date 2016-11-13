@@ -12,11 +12,16 @@ using System.Text;
 
 namespace MBASite.Controllers
 {
+    [Authorize]
     public class EditStudentAdvisingController : Controller
     {
         StudentAdvisingData studentData;
         UCMStudent studentDetails;
-        // GET: EditStudentAdvising
+
+        /// <summary>
+        /// Returns a view to edit student advising data
+        /// </summary>
+        /// <returns></returns>
         public ActionResult EditStudentAdvising()
         {
             studentData = new StudentAdvisingData();
@@ -25,11 +30,16 @@ namespace MBASite.Controllers
             return View(studentData);
         }
 
+        /// <summary>
+        /// Receives the form to send to the api
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult EditStudentAdvising(StudentAdvisingData data)
         {
             studentDetails = updateStudentDetails(data);
-            bool status = postToWebApi(studentDetails);
+            bool status = ContactApi.PostToApi<UCMStudent>(studentDetails, "updateStudent");
             if(status)
             {
                 return View(new StudentAdvisingData());
@@ -37,24 +47,11 @@ namespace MBASite.Controllers
             return View(data);
         }
 
-        private bool postToWebApi(UCMStudent studentDetails)
-        {
-            string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
-            string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["updateStudent"];
-            var jsonString = new JavaScriptSerializer().Serialize(studentDetails);
-            var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            using (var client = new HttpClient())
-            {
-                var httpResponse = client.PostAsync(url + uri, httpContent).Result;
-                if (httpResponse.Content != null)
-                {
-                    var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
-                    return responseContent.Equals("\"Success\"") ? true : false;
-                }
-            }
-            return false;
-        }
-
+        /// <summary>
+        /// Copies data from model to viewmodel for display
+        /// </summary>
+        /// <param name="studentData"></param>
+        /// <param name="details"></param>
         private void populateData(StudentAdvisingData studentData, UCMStudent details)
         {
             studentData.Id = details.Id;
@@ -67,6 +64,11 @@ namespace MBASite.Controllers
             studentData.ProgramStatus = StaticVariables.AcademicStatuses.FirstOrDefault(p => p.ID == details.Student_AcademicStatusId).AcademicStatus;
         }
 
+        /// <summary>
+        /// Copies data from viewmodel to model for sending to the api
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         private UCMStudent updateStudentDetails(StudentAdvisingData data)
         {
             var details = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == data.Id);

@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace MBASite.ViewModels
 {
-    public class Course
+    public class CourseInfo
     {
         [DisplayName("Concentration Code")]
         public string ConcentrationCode { get; set; }

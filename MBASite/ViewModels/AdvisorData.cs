@@ -13,6 +13,9 @@ namespace MBASite.ViewModels
         [DisplayName("Last Name")]
         public string LastName { get; set; }
         [DisplayName("Concentration")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+        [DisplayName("Concentration")]
         public string Concentration { get; set; }
         [DisplayName("Email")]
         public string Email { get; set; }

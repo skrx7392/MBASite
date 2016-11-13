@@ -15,7 +15,10 @@ namespace MBASite.Controllers
     [Authorize]
     public class UpdateAdvisorController : Controller
     {
-        // GET: UpdateAdvisor
+        /// <summary>
+        /// Returns a list of advisors in dropdown box
+        /// </summary>
+        /// <returns></returns>
         public ActionResult UpdateAdvisor()
         {
             List<StudentId> advisors = new List<StudentId>();
@@ -26,6 +29,11 @@ namespace MBASite.Controllers
             return View(advisors);
         }
 
+        /// <summary>
+        /// Returns the selected advisor from dropdown list
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult UpdateAdvisor(StudentId id)
         {
@@ -36,6 +44,11 @@ namespace MBASite.Controllers
             return RedirectToAction("UpdateAdvisorData");
         }
 
+        /// <summary>
+        /// Copies data from model to viewmodel
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="advisor"></param>
         private void populateData(AdvisorData data, UCMModerator advisor)
         {
             data.AdvisorId = advisor.Id;
@@ -46,43 +59,39 @@ namespace MBASite.Controllers
             data.Status = advisor.IsActive;
         }
 
+        /// <summary>
+        /// Returns a view to update the details of selected advisor
+        /// </summary>
+        /// <returns></returns>
         public ActionResult UpdateAdvisorData()
         {
             AdvisorData data = (AdvisorData)(TempData["advisor"]);
             return View(data);
         }
 
+        /// <summary>
+        /// Receives form data od updated advisor details
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult UpdateAdvisorData(AdvisorData data)
         {
             var details = StaticVariables.AdvisorDetails.FirstOrDefault(p => p.Id == data.AdvisorId);
             UpdateAdvisorDetails(details, data);
-            bool status = PostToWebApi(details);
+            bool status = ContactApi.PostToApi<UCMModerator>(details, "updateAdvisor");
             if(status)
             {
                 return RedirectToAction("UpdateAdvisor");
             }
             return View(data);
         }
-
-        private bool PostToWebApi(UCMModerator details)
-        {
-            string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
-            string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["updateAdvisor"];
-            var jsonString = new JavaScriptSerializer().Serialize(details);
-            var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            using (var client = new HttpClient())
-            {
-                var httpResponse = client.PostAsync(url + uri, httpContent).Result;
-                if (httpResponse.Content != null)
-                {
-                    var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
-                    return responseContent.Equals("\"Success\"") ? true : false;
-                }
-            }
-            return false;
-        }
-
+        
+        /// <summary>
+        /// Copies viewmodel data to model for posting to web api
+        /// </summary>
+        /// <param name="details"></param>
+        /// <param name="data"></param>
         private void UpdateAdvisorDetails(UCMModerator details, AdvisorData data)
         {
             details.programId = StaticVariables.Programs.FirstOrDefault(p=>p.Name.Equals(data.Concentration)).Id.ToString();

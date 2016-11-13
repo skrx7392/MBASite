@@ -20,7 +20,10 @@ namespace MBASite.Controllers
             student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == Convert.ToInt32(User.Identity.Name));
         }
 
-        // GET: ViewStudentDetails
+        /// <summary>
+        /// Returns the details of a particular student
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ViewStudentDetails()
         {
             if (student.Training.Name.Equals("Due"))
@@ -29,6 +32,9 @@ namespace MBASite.Controllers
             return View(data);
         }
 
+        /// <summary>
+        /// Copies data from model to update model
+        /// </summary>
         private void populateStudentData()
         {
             data = new StudentData();

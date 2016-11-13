@@ -12,27 +12,49 @@ namespace MBASite.Controllers
     [Authorize]
     public class EditStudentController : Controller
     {
-        List<StudentId> Students;
-        int Id;
-
         public EditStudentController()
         {
-            Students = new List<StudentId>();
+            var Students = new List<StudentId>();
         }
-        // GET: EditStudent
+
+        /// <summary>
+        /// /// <summary>
+        /// Returns a view to select a particular student from a dropdown
+        /// </summary>
+        /// <returns></returns
         public ActionResult StudentsList()
         {
-            foreach (var student in StaticVariables.StudentDetails)
+            List<StudentId> Students = new List<StudentId>();
+            if(StaticVariables.Role.Equals("Director"))
             {
-                StudentId identity = new StudentId
+                foreach (var student in StaticVariables.StudentDetails)
                 {
-                    Id = student.Id
-                };
-                Students.Add(identity);
+                    StudentId identity = new StudentId
+                    {
+                        Id = student.Id
+                    };
+                    Students.Add(identity);
+                }
+            }
+            else
+            {
+                foreach (var student in StaticVariables.StudentDetails.Where(p => p.Advisor == Convert.ToInt32(User.Identity.Name)))
+                {
+                    StudentId identity = new StudentId
+                    {
+                        Id = student.Id
+                    };
+                    Students.Add(identity);
+                }
             }
             return View(Students);
         }
 
+        /// <summary>
+        /// Receives value of selected student from form
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult StudentList(StudentId studentId)
         {

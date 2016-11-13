@@ -17,5 +17,7 @@ namespace MBASite.Models
         public string CCode { get; set; }
         [DisplayName("Prerequisite ID")]
         public string PreqId { get; set; }
+        [DisplayName("Is Active")]
+        public bool? PrereqIsActive { get; set; }
     }
 }

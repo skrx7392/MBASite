@@ -12,22 +12,30 @@ using System.Text;
 
 namespace MBASite.Controllers
 {
+    [Authorize]
     public class AddAdvisorController : Controller
     {
-        AdvisorData advisorData;
-        // GET: AddAdvisor
+        /// <summary>
+        /// Return a view to create new advisor
+        /// </summary>
+        /// <returns></returns>
         public ActionResult AddAdvisor()
         {
-            advisorData = new AdvisorData();
+            var advisorData = new AdvisorData();
             return View(advisorData);
         }
 
+        /// <summary>
+        /// Receives the form data of create new advisor
+        /// </summary>
+        /// <param name="advisorData"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult AddAdvisor(AdvisorData advisorData)
         {
             UCMModerator details = new UCMModerator();
             populateAdvisorDetails(details, advisorData);
-            bool added = PostToApi(details);
+            bool added = ContactApi.PostToApi<UCMModerator>(details, "addAdvisor");
             if(added)
             {
                 StaticVariables.AdvisorDetails.Add(details);
@@ -36,6 +44,11 @@ namespace MBASite.Controllers
             return View(advisorData);
         }
 
+        /// <summary>
+        /// Copies data from viewmodel to model for sending to web api
+        /// </summary>
+        /// <param name="details"></param>
+        /// <param name="data"></param>
         private void populateAdvisorDetails(UCMModerator details, AdvisorData data)
         {
             details.AlternateEmail = string.Empty;
@@ -45,28 +58,10 @@ namespace MBASite.Controllers
             details.IsActive = true;
             details.LastName = data.LastName;
             details.ModifiedDate = DateTime.Now;
-            details.Password = PasswordGenerator.HashPassword(PasswordGenerator.GeneratePassword());
-            details.Role = StaticVariables.Roles.FirstOrDefault(p => p.Name.Equals("Advisor"));
+            details.Password = data.Password;
+            details.Role = null;
             details.programId = StaticVariables.Programs.FirstOrDefault(p => p.Name.Equals(data.Concentration)).Id.ToString();
-            details.RoleId = details.Role.Id;
-        }
-
-        private bool PostToApi(UCMModerator details)
-        {
-            string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
-            string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["addAdvisor"];
-            var jsonString = new JavaScriptSerializer().Serialize(details);
-            var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            using (var client = new HttpClient())
-            {
-                var httpResponse = client.PostAsync(url + uri, httpContent).Result;
-                if (httpResponse.Content != null)
-                {
-                    var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
-                    return responseContent.Equals("\"Success\"") ? true : false;
-                }
-            }
-            return false;
+            details.RoleId = StaticVariables.Roles.FirstOrDefault(p => p.Name.Equals("Advisor")).Id;
         }
     }
 }

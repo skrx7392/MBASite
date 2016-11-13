@@ -19,13 +19,22 @@ namespace MBASite.Controllers
     public class AddStudentController : Controller
     {
         StudentData studentData;
-        // GET: AddStudent
+
+        /// <summary>
+        /// Returns a view to add a new student
+        /// </summary>
+        /// <returns></returns>
         public ActionResult AddStudent()
         {
             studentData = new StudentData();
             return View(studentData);
         }
 
+        /// <summary>
+        /// Receives the Form data of creating a new sttudent asynchronously
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> AddStudent(StudentData data)
         {
@@ -33,7 +42,7 @@ namespace MBASite.Controllers
             string md5Password = PasswordGenerator.HashPassword(password);
             UCMStudent student = new UCMStudent();
             populateUCMStudent(student, data, md5Password);
-            bool postStatus = postToWebApi(student);
+            bool postStatus = ContactApi.PostToApi<UCMStudent>(student, "addStudent");
             if(postStatus)
             {
                 await GenerateEmail(data, password);
@@ -42,9 +51,15 @@ namespace MBASite.Controllers
             return View(data);
         }
 
+        /// <summary>
+        /// Generates and sends email to the newly accepted student asynchronously
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         private async Task GenerateEmail(StudentData data, string password)
         {
-            StaticVariables.StudentDetails = AsyncEmulator.EmulateAsync<UCMStudent>("getStudents");
+            StaticVariables.StudentDetails = ContactApi.GetDataFromApi<UCMStudent>("getStudents");
             UCMStudent student = StaticVariables.StudentDetails.FirstOrDefault(p => p.AlternateEmail == data.NonUCMOEmailId);
             data.Id = student.Id;
             MailMessage mail = new MailMessage();
@@ -67,6 +82,12 @@ namespace MBASite.Controllers
             }
         }
 
+        /// <summary>
+        /// Copies data from viewmodel to model for sending to web api
+        /// </summary>
+        /// <param name="student"></param>
+        /// <param name="data"></param>
+        /// <param name="password"></param>
         private void populateUCMStudent(UCMStudent student, StudentData data, string password)
         {
             student.Address = data.Address;
@@ -84,38 +105,26 @@ namespace MBASite.Controllers
             student.ModifiedDate = DateTime.Now;
             student.Password = password;
             student.PhoneNumber = data.PhoneNumber;
-            student.PrereqsMet = true;
-            student.Program = StaticVariables.Programs.FirstOrDefault(p => p.Name.Equals(data.Concentration));
-            student.ProgramId = student.Program.Id;
-            student.Role = StaticVariables.Roles.FirstOrDefault(p => p.Name.ToLower().Equals("student"));
-            student.RoleId = student.Role.Id;
+            student.PrereqsMet = false;
+            student.Program = null;
+            student.ProgramId = StaticVariables.Programs.FirstOrDefault(p => p.Name.Equals(data.Concentration)).Id;
+            student.Role = null;
+            student.RoleId = StaticVariables.Roles.FirstOrDefault(p => p.Name.ToLower().Equals("student")).Id;
             student.StartDate = data.ProgramEntryDate;
-            student.Student_TrainingStatus = StaticVariables.TrainingStatuses.FirstOrDefault(p => p.TrainingStatus.Equals("Due"));
-            student.StudentTrainingStatusId = student.Student_TrainingStatus.Id;
-            student.Student_AcademicStatus = StaticVariables.AcademicStatuses.FirstOrDefault(p => p.AcademicStatus.Equals("Accepted"));
-            student.Student_AcademicStatusId = student.Student_AcademicStatus.ID;
-            student.Training = StaticVariables.Trainings.FirstOrDefault(p => p.Id == 1);
-            student.TrainingId = student.Training.Id;
+            student.Student_TrainingStatus = null;
+            student.StudentTrainingStatusId = StaticVariables.TrainingStatuses.FirstOrDefault(p => p.TrainingStatus.Equals("Due")).Id;
+            student.Student_AcademicStatus = null;
+            student.Student_AcademicStatusId = StaticVariables.AcademicStatuses.FirstOrDefault(p => p.AcademicStatus.Equals("Accepted")).ID;
+            student.Training = null;
+            student.TrainingId = StaticVariables.Trainings.FirstOrDefault(p => p.Id == 1).Id;
         }
 
-        private bool postToWebApi(UCMStudent student)
-        {
-            string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
-            string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["addStudent"];
-            var jsonString = new JavaScriptSerializer().Serialize(student);
-            var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            using (var client = new HttpClient())
-            {
-                var httpResponse = client.PostAsync(url + uri, httpContent).Result;
-                if (httpResponse.Content != null)
-                {
-                    var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
-                    return responseContent.Equals("\"Success\"") ? true : false;
-                }
-            }
-            return false;
-        }
-
+        /// <summary>
+        /// Formats the Email Body using non html
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         private string EmailBody(StudentData data, string password)
         {
             string url = "http://localhost:18920/";
@@ -123,7 +132,7 @@ namespace MBASite.Controllers
             return res;
         }
 
-        private comments CreateComments(string comment)
+        private Comments CreateComments(string comment)
         {
             return ConfigureComments.DeserializeComments(comment);
         }
