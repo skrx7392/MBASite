@@ -8,7 +8,6 @@ using MBASite.Models;
 
 namespace MBASite.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
 
@@ -20,12 +19,12 @@ namespace MBASite.Controllers
             StaticVariables.TrainingStatuses = AsyncEmulator.EmulateAsync<Student_TrainingStatus>("getStudentTrainingStatus");
             StaticVariables.Trainings = AsyncEmulator.EmulateAsync<Training>("getTrainingRepo");
             StaticVariables.AcademicStatuses = AsyncEmulator.EmulateAsync<Student_AcademicStatus>("getStudentAcademicStatus");
-            ViewBag.Title = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == int.Parse(User.Identity.Name)).FirstName;
-            UCMStudent student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == int.Parse(User.Identity.Name));
-            if (StaticVariables.TrainingStatuses.FirstOrDefault(p => p.Id == student.Id).TrainingStatus.ToLower().Equals("Due".ToLower()))
-            {
-                return RedirectToAction("FillQuestionnaire", "Questionnaire");
-            }
+           // ViewBag.Title = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == int.Parse(User.Identity.Name)).FirstName;
+            //UCMStudent student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == int.Parse(User.Identity.Name));
+            //if (StaticVariables.TrainingStatuses.FirstOrDefault(p => p.Id == student.Id).TrainingStatus.ToLower().Equals("Due".ToLower()))
+            //{
+            //    return RedirectToAction("FillQuestionnaire", "Questionnaire");
+            //}
             return View();
         }
 
@@ -39,7 +38,7 @@ namespace MBASite.Controllers
             StaticVariables.TrainingStatuses = AsyncEmulator.EmulateAsync<Student_TrainingStatus>("getStudentTrainingStatus");
             StaticVariables.Trainings = AsyncEmulator.EmulateAsync<Training>("getTrainingRepo");
             StaticVariables.AcademicStatuses = AsyncEmulator.EmulateAsync<Student_AcademicStatus>("getStudentAcademicStatus");
-            ViewBag.Title = StaticVariables.AdvisorDetails.FirstOrDefault(p => p.Id == int.Parse(User.Identity.Name)).FirstName;
+            //ViewBag.Title = StaticVariables.AdvisorDetails.FirstOrDefault(p => p.Id == int.Parse(User.Identity.Name)).FirstName;
             return View();
         }
 
@@ -53,7 +52,7 @@ namespace MBASite.Controllers
             StaticVariables.TrainingStatuses = AsyncEmulator.EmulateAsync<Student_TrainingStatus>("getStudentTrainingStatus");
             StaticVariables.Trainings = AsyncEmulator.EmulateAsync<Training>("getTrainingRepo");
             StaticVariables.AcademicStatuses = AsyncEmulator.EmulateAsync<Student_AcademicStatus>("getStudentAcademicStatus");
-            ViewBag.Title = "Mr. Director";
+            //ViewBag.Title = "Mr. Director";
             return View();
         }
     }
