@@ -21,16 +21,11 @@ namespace MBASite.Controllers
         /// <returns></returns>
         public ActionResult UpdateAdvisor()
         {
-            List<StudentId> advisors = new List<StudentId>();
-            foreach (var advisor in StaticVariables.AdvisorDetails)
-            {
-                advisors.Add(new StudentId() { Id = advisor.Id });
-            }
-            return View(advisors);
+            return View(StaticVariables.AdvisorDetails);
         }
 
         /// <summary>
-        /// Returns the selected advisor from dropdown list
+        /// Returns the selected advisor from dropdown list to update advisor data
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -62,10 +57,14 @@ namespace MBASite.Controllers
         /// <summary>
         /// Returns a view to update the details of selected advisor
         /// </summary>
+        /// <param name="id">Id of advisor</param>
         /// <returns></returns>
-        public ActionResult UpdateAdvisorData()
+        public ActionResult UpdateAdvisorData(int id)
         {
-            AdvisorData data = (AdvisorData)(TempData["advisor"]);
+            UCMModerator advisor = StaticVariables.AdvisorDetails.FirstOrDefault(p => p.Id == id);
+            //AdvisorData data = (AdvisorData)(TempData["advisor"]);
+            AdvisorData data = new AdvisorData();
+            populateData(data, advisor);
             return View(data);
         }
 
@@ -99,6 +98,17 @@ namespace MBASite.Controllers
             details.FirstName = data.FirstName;
             details.LastName = data.LastName;
             details.IsActive =  data.Status;
+        }
+
+        public ActionResult CreatePassword(int id)
+        {
+            UCMUser user = StaticVariables.AdvisorDetails.FirstOrDefault(p => p.Id == id);
+            string password = PasswordGenerator.GeneratePassword();
+            string md5Password = PasswordGenerator.HashPassword(password);
+            user.Password = md5Password;
+            bool status = ContactApi.PostToApi(user, "updateUser");
+            ViewBag.Status = status;
+            return View();
         }
     }
 }

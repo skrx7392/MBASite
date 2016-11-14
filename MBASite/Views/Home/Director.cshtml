@@ -11,17 +11,17 @@
             <button class="btn btn-success btn-lg" type="submit" onclick="location.href='@Url.Action("AddStudent", "AddStudent")'"><span class="glyphicon glyphicon-plus-sign pull-left"></span>&nbsp;Student</button>
         </div>
         <div class="col-md-4">
-            <button class="btn btn-primary btn-lg" type="submit" onclick="location.href='@Url.Action("AddAdvisor", "AddAdvisor")'"><span class="glyphicon glyphicon-edit pull-left"></span>&nbsp;Student</button>
+            <button class="btn btn-primary btn-lg" type="submit" onclick="location.href='@Url.Action("StudentsList", "EditStudent")'"><span class="glyphicon glyphicon-edit pull-left"></span>&nbsp;Student</button>
         </div>
     </div>
 </div>
 <div class="form-group">
     <div class="row">
         <div class="col-md-4 col-md-offset-2">
-            <button class="btn btn-success btn-lg" type="submit" onclick="location.href='@Url.Action("AddStudent", "AddStudent")'"><span class="glyphicon glyphicon-plus-sign pull-left"></span>&nbsp;Advisor</button>
+            <button class="btn btn-success btn-lg" type="submit" onclick="location.href='@Url.Action("AddAdvisor", "AddAdvisor")'"><span class="glyphicon glyphicon-plus-sign pull-left"></span>&nbsp;Advisor</button>
         </div>
         <div class="col-md-4">
-            <button class="btn btn-primary btn-lg" type="submit" onclick="location.href='@Url.Action("AddAdvisor", "AddAdvisor")'"><span class="glyphicon glyphicon-edit pull-left"></span>&nbsp;Advisor</button>
+            <button class="btn btn-primary btn-lg" type="submit" onclick="location.href='@Url.Action("UpdateAdvisor", "UpdateAdvisor")'"><span class="glyphicon glyphicon-edit pull-left"></span>&nbsp;Advisor</button>
         </div>
     </div>
 </div>
@@ -31,36 +31,36 @@
             <button class="btn btn-success btn-lg" type="submit" onclick="location.href='@Url.Action("AddCourse", "AddCourse")'"><span class="glyphicon glyphicon-plus-sign pull-left"></span>&nbsp;Course</button>
         </div>
         <div class="col-md-4">
-            <button class="btn btn-primary btn-lg" type="submit" onclick="location.href='@Url.Action("AddPrereqs", "AddPrereqs")'"><span class="glyphicon glyphicon-plus-sign pull-left"></span>&nbsp;Prerequisite Course</button>
-        </div>
+            <button class="btn btn-primary btn-lg" type="submit" onclick="location.href='@Url.Action("GetCourse", "AddPrereqs")'"><span class="glyphicon glyphicon-plus-sign pull-left"></span>&nbsp;Prerequisite Course</button>
         </div>
     </div>
-    <div class="form-group">
+</div>
+<div class="form-group">
     <div class="row">
         <div class="col-md-4 col-md-offset-2">
-            <button class="btn btn-success btn-lg" type="submit" onclick="location.href='@Url.Action("ChangePassword", "ChangePassword")'"><span class="glyphicon glyphicon-plus-sign pull-left"></span>&nbsp;Concentration</button>
+            <button class="btn btn-success btn-lg" type="submit" onclick="location.href='@Url.Action("AddConcentration", "AddConcentration")'"><span class="glyphicon glyphicon-plus-sign pull-left"></span>&nbsp;Concentration</button>
         </div>
         <div class="col-md-4 ">
-            <button class="btn btn-primary btn-lg" type="submit" onclick="location.href='@Url.Action("ChangePassword", "ChangePassword")'"><span class="glyphicon glyphicon-edit pull-left"></span>&nbsp;Concentration</button>
-        </div>
-        </div>
-        </div>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-md-4 col-md-offset-2">
-                    <button class="btn btn-success btn-lg" type="submit" onclick="location.href='@Url.Action("StudentsList", "EditStudent")'"><span class="glyphicon glyphicon-edit pull-left"></span>&nbsp;Student Advising</button>
-                </div>
-                <div class="col-md-4 ">
-                    <button class="btn btn-primary btn-lg" type="submit" onclick="location.href='@Url.Action("ChangePassword", "ChangePassword")'"><span class="glyphicon glyphicon-edit pull-left"></span>&nbsp;Change Password</button>
-                </div>
-
-            </div>
-        </div>
-    <div class="form-group">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-3">
-            <button class="btn btn-warning btn-lg" type="submit" onclick="location.href='@Url.Action("ChangePassword", "ChangePassword")'"><span class="glyphicon glyphicon-ban-circle pull-left"></span>&nbsp;Training Non-Completed Students</button>
+            <button class="btn btn-primary btn-lg" type="submit" onclick="location.href='@Url.Action("EditConcentrationList", "EditConcentration")'"><span class="glyphicon glyphicon-edit pull-left"></span>&nbsp;Concentration</button>
         </div>
     </div>
+</div>
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-2">
+            <button class="btn btn-success btn-lg" type="submit" onclick="location.href='@Url.Action("StudentsList", "EditStudent")'"><span class="glyphicon glyphicon-edit pull-left"></span>&nbsp;Student Advising</button>
         </div>
+        <div class="col-md-4 ">
+            <button class="btn btn-primary btn-lg" type="submit" onclick="location.href='@Url.Action("ChangePassword", "ChangePassword")'"><span class="glyphicon glyphicon-edit pull-left"></span>&nbsp;Change Password</button>
+        </div>
+
+    </div>
+</div>
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-3">
+            <button class="btn btn-warning btn-lg" type="submit" onclick="location.href='@Url.Action("TrainingDueStudents", "TrainingDue")'"><span class="glyphicon glyphicon-ban-circle pull-left"></span>&nbsp;Training Non-Completed Students</button>
+        </div>
+    </div>
+</div>
 

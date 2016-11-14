@@ -9,39 +9,64 @@ using System.Web.Mvc;
 
 namespace MBASite.Controllers
 {
+    [Authorize]
     public class EditConcentrationController : Controller
     {
-
+        /// <summary>
+        /// Returns a view to select concentration to edit 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult EditConcentrationList()
         {
             return View(StaticVariables.Programs);
         }
 
-        [HttpPost]
-        public ActionResult EditConcentrationList(Program program)
-        {
-            ViewProgram viewProgram = new ViewProgram();
-            updateViewModel(program, viewProgram);
-            TempData["program"] = viewProgram;
-            return RedirectToAction("EditConcentration");
-        }
+        ///// <summary>
+        ///// Retrieves the form data of selected concentration 
+        ///// </summary>
+        ///// <param name="program"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //public ActionResult EditConcentrationList(Program program)
+        //{
+        //    ViewProgram viewProgram = new ViewProgram();
+        //    updateViewModel(program, viewProgram);
+        //    TempData["program"] = viewProgram;
+        //    return RedirectToAction("EditConcentration");
+        //}
 
+        /// <summary>
+        /// Copies model data into viewmodel
+        /// </summary>
+        /// <param name="program"></param>
+        /// <param name="viewProgram"></param>
         private void updateViewModel(Program program, ViewProgram viewProgram)
         {
             viewProgram.ConcentrationCode = program.Conc_Code;
             viewProgram.ConcentrationName = program.Name;
             viewProgram.Id = program.Id;
-            viewProgram.IsActive = program.IsActive.Value;
+            viewProgram.IsActive = program.IsActive.HasValue ? program.IsActive.Value : false;
             viewProgram.MajorId = program.MajorId;
         }
 
-        // GET: EditConcentration
-        public ActionResult EditConcentration()
+        /// <summary>
+        /// Returns a view to edit the selected concentration
+        /// </summary>
+        /// <param name="id">todo: describe id parameter on EditConcentration</param>
+        /// <returns></returns>
+        public ActionResult EditConcentration(int id)
         {
-            ViewProgram viewProgram = (ViewProgram)TempData["program"];
+            Program program = StaticVariables.Programs.FirstOrDefault(p => p.Id == id);
+            ViewProgram viewProgram = new ViewProgram();
+            updateViewModel(program, viewProgram);
             return View(viewProgram);
         }
-
+        
+        /// <summary>
+        /// Receives the form data of edited concentration
+        /// </summary>
+        /// <param name="viewProgram"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult EditConcentration(ViewProgram viewProgram)
         {
@@ -53,6 +78,11 @@ namespace MBASite.Controllers
             return View(viewProgram);
         }
 
+        /// <summary>
+        /// Copies data from viewmodel to model
+        /// </summary>
+        /// <param name="program"></param>
+        /// <param name="viewProgram"></param>
         private void populateProgramDetails(Program program, ViewProgram viewProgram)
         {
             program.Conc_Code = viewProgram.ConcentrationCode;

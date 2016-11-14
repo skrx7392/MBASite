@@ -24,28 +24,14 @@ namespace MBASite.Controllers
         /// <returns></returns>
         public ActionResult StudentsList()
         {
-            List<StudentId> Students = new List<StudentId>();
+            List<UCMStudent> Students = new List<UCMStudent>();
             if(StaticVariables.Role.Equals("Director"))
             {
-                foreach (var student in StaticVariables.StudentDetails)
-                {
-                    StudentId identity = new StudentId
-                    {
-                        Id = student.Id
-                    };
-                    Students.Add(identity);
-                }
+                Students = StaticVariables.StudentDetails;
             }
             else
             {
-                foreach (var student in StaticVariables.StudentDetails.Where(p => p.Advisor == Convert.ToInt32(User.Identity.Name)))
-                {
-                    StudentId identity = new StudentId
-                    {
-                        Id = student.Id
-                    };
-                    Students.Add(identity);
-                }
+                Students = StaticVariables.StudentDetails.Where(p => p.Advisor == Convert.ToInt32(User.Identity.Name)).ToList();
             }
             return View(Students);
         }

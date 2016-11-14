@@ -25,9 +25,14 @@ namespace MBASite.Controllers
             StaticVariables.AcademicStatuses = ContactApi.GetDataFromApi<Student_AcademicStatus>("getStudentAcademicStatus");
             ViewBag.Title = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == int.Parse(User.Identity.Name)).FirstName;
             UCMStudent student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == int.Parse(User.Identity.Name));
-            if (StaticVariables.TrainingStatuses.FirstOrDefault(p => p.Id == student.Id).TrainingStatus.ToLower().Equals("Due".ToLower()))
+            //FillQuestionnaire
+            if (false)
             {
                 return RedirectToAction("FillQuestionnaire", "Questionnaire");
+            }
+            if (StaticVariables.TrainingStatuses.FirstOrDefault(p => p.Id == student.StudentTrainingStatusId).TrainingStatus.ToLower().Equals("Due".ToLower()))
+            {
+                return RedirectToAction("AcademicCodeOfConduct");
             }
             return View();
         }
@@ -66,6 +71,24 @@ namespace MBASite.Controllers
             StaticVariables.AcademicStatuses = ContactApi.GetDataFromApi<Student_AcademicStatus>("getStudentAcademicStatus");
             ViewBag.Title = "Mr. Director";
             return View();
+        }
+
+        public ActionResult AcademicCodeOfConduct()
+        {
+            return View();
+        }
+
+        public ActionResult ACCCompleted()
+        {
+            int id = Convert.ToInt32(User.Identity.Name);
+            UCMStudent student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == id);
+            student.StudentTrainingStatusId = 3;
+            bool status = ContactApi.PostToApi(student, "updateStudent");
+            if(status)
+            {
+                return RedirectToAction("Student");
+            }
+            return RedirectToAction("AcademicCodeOfConduct");
         }
     }
 }

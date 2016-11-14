@@ -7,6 +7,7 @@ using MBASite.ViewModels;
 
 namespace MBASite.Controllers
 {
+    [Authorize]
     public class QuestionnaireController : Controller
     {
         QuestionnaireQuestions questions;

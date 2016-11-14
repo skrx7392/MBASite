@@ -12,29 +12,18 @@ using System.Text;
 
 namespace MBASite.Controllers
 {
+    [Authorize]
     public class EditStudentDetailsController : Controller
     {
-        int studentId;
-        
         /// <summary>
         /// Returns a view to edit student details
         /// </summary>
+        /// <param name="id">todo: describe id parameter on EditStudentDetails</param>
         /// <returns></returns>
-        public ActionResult EditStudentDetails()
+        public ActionResult EditStudentDetails(int id)
         {
-            if((StaticVariables.Role.Equals("Advisor") || StaticVariables.Role.Equals("Director")) && TempData["studentData"]!=null)
-            {
-                if(TempData.ContainsKey("student"))
-                {
-                    studentId = int.Parse(TempData["student"].ToString());
-                }
-            }
-            else if(StaticVariables.Role.Equals("Student"))
-            {
-                studentId = int.Parse(User.Identity.Name);
-            }
-            var Student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == studentId);
-            var StudentData = populateData(studentId);
+            var Student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == id);
+            var StudentData = populateData(id);
             return View(StudentData);
         }
 
@@ -67,7 +56,7 @@ namespace MBASite.Controllers
             studentData.Id = studentDetails.Id;
             studentData.Address = studentDetails.Address;
             studentData.Comments = studentDetails.Comments;
-            studentData.Concentration = StaticVariables.Programs.FirstOrDefault(p => p.Id == studentDetails.ProgramId).Name;
+            studentData.Concentration = StaticVariables.Programs.FirstOrDefault(p=>p.Id==studentDetails.ProgramId).Name;
             studentData.FirstName = studentDetails.FirstName;
             studentData.GMATScore = studentDetails.GMATScore.HasValue ? studentDetails.GMATScore.Value : 0;
             studentData.GPA = studentDetails.GPA;

@@ -34,7 +34,6 @@ namespace MBASite.Controllers
         public ActionResult ChangePassword(ChangePassword newPassword)
         {
             string oldPwd = PasswordGenerator.HashPassword(newPassword.OldPassword);
-            bool updateStatus = false;
             string userCategory = string.Empty;
             UCMUser user = new UCMUser();
             if(StaticVariables.Role.Equals("Student"))
@@ -44,14 +43,13 @@ namespace MBASite.Controllers
             }
             else
             {
-                int id = StaticVariables.Role.Equals("Director") ? Convert.ToInt32(TempData["changePasswordId"]) : Convert.ToInt32(User.Identity.Name);
-                userCategory = StaticVariables.Role.Equals("Director") ? "Director" : "Advisor";
-                user = StaticVariables.AdvisorDetails.FirstOrDefault(p => p.Id == id);
+                userCategory = "Advisor";
+                user = StaticVariables.AdvisorDetails.FirstOrDefault(p => p.Id == Convert.ToInt32(User.Identity.Name));
             }
             if (oldPwd.Equals(user.Password))
             {
                 user.Password = newPassword.NewPassword;
-                updateStatus = ContactApi.PostToApi<UCMUser>(user, "updateUser");
+                bool updateStatus = ContactApi.PostToApi<UCMUser>(user, "updateUser");
                 if (updateStatus)
                 {
                     return RedirectToAction(userCategory, "Home");
@@ -59,5 +57,6 @@ namespace MBASite.Controllers
             }
             return View(newPassword);
         }
+        
     }
 }

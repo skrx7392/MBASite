@@ -15,25 +15,33 @@ namespace MBASite.Controllers
         /// <summary>
         /// Returns a new view to update course page with prereq
         /// </summary>
+        /// <param name="id">Course Id</param>
         /// <returns></returns>
-        public ActionResult AddPrereqs()
+        public ActionResult AddPrereqs(int id)
         {
-            //TO-DO
-            return View();
+            Course course = StaticVariables.Courses.FirstOrDefault(p => p.Id == id);
+            return View(course);
         }
 
         /// <summary>
         /// Receives the form data to update course prereq
         /// </summary>
-        /// <param name="prereqCourses"></param>
+        /// <param name="courseInfo"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult AddPrereqs(PrerequisiteCourses prereqCourses)
+        public ActionResult AddPrereqs(Course courseInfo)
         {
-            //TO-DO
-            return View(new PrerequisiteCourses());
+            Course course = StaticVariables.Courses.FirstOrDefault(p => p.Id == courseInfo.Id);
+            course.PreqId = courseInfo.PreqId;
+            course.PrereqIsActive = courseInfo.PrereqIsActive;
+            bool status = ContactApi.PostToApi<Course>(course, "updateCourse");
+            if(status)
+            {
+                return RedirectToAction("GetCourse");
+            }
+            return View(course);
         }
-
+        
         /// <summary>
         /// Returns View with list of Courses to choose from drop down
         /// </summary>
@@ -42,17 +50,6 @@ namespace MBASite.Controllers
         {
             StaticVariables.Courses = ContactApi.GetDataFromApi<Models.Course>("getCourses");
             return View(StaticVariables.Courses);
-        }
-
-        /// <summary>
-        /// Receives form data of selected course
-        /// </summary>
-        /// <param name="courseInfo"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult GetCourses(Models.Course courseInfo)
-        {
-            return View();
         }
     }
 }

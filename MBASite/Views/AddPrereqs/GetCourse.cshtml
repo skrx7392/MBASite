@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MBASite.Models.CourseInfo>
+﻿@model IEnumerable<MBASite.Models.Course>
 
 @{
     ViewBag.Title = "GetCourse";
@@ -7,10 +7,13 @@
 <h2>GetCourse</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "AddCourse", "AddCourse")
 </p>
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model=>model.Id)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
@@ -29,6 +32,9 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
@@ -41,9 +47,7 @@
             @Html.DisplayFor(modelItem => item.PreqId)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("AddPrereqs", "AddPrereqs", new { id=item.Id })
         </td>
     </tr>
 }

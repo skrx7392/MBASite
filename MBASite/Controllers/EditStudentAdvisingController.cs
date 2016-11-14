@@ -15,17 +15,15 @@ namespace MBASite.Controllers
     [Authorize]
     public class EditStudentAdvisingController : Controller
     {
-        StudentAdvisingData studentData;
-        UCMStudent studentDetails;
-
         /// <summary>
         /// Returns a view to edit student advising data
         /// </summary>
+        /// <param name="id">todo: describe id parameter on EditStudentAdvising</param>
         /// <returns></returns>
-        public ActionResult EditStudentAdvising()
+        public ActionResult EditStudentAdvising(int id)
         {
-            studentData = new StudentAdvisingData();
-            studentDetails = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == 700000003);
+            var studentData = new StudentAdvisingData();
+            var studentDetails = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == id);
             populateData(studentData, studentDetails);
             return View(studentData);
         }
@@ -38,7 +36,7 @@ namespace MBASite.Controllers
         [HttpPost]
         public ActionResult EditStudentAdvising(StudentAdvisingData data)
         {
-            studentDetails = updateStudentDetails(data);
+            var studentDetails = updateStudentDetails(data);
             bool status = ContactApi.PostToApi<UCMStudent>(studentDetails, "updateStudent");
             if(status)
             {

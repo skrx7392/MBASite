@@ -136,6 +136,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\QuestionnaireController.cs" />
+    <Compile Include="Controllers\TrainingDueController.cs" />
     <Compile Include="Controllers\UpdateAdvisorController.cs" />
     <Compile Include="Controllers\ViewStudentDetailsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -199,6 +200,10 @@
     <Content Include="Views\AddConcentration\AddConcentration.cshtml" />
     <Content Include="Views\EditConcentration\EditConcentrationList.cshtml" />
     <Content Include="Views\EditConcentration\EditConcentration.cshtml" />
+    <Content Include="Views\TrainingDue\TrainingDueStudents.cshtml" />
+    <Content Include="Views\UpdateAdvisor\CreatePassword.cshtml" />
+    <Content Include="Views\Home\AcademicCodeOfConduct.cshtml" />
+    <Content Include="Views\ViewStudentDetails\ViewStudentDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
