@@ -4,37 +4,51 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MBASite.ViewModels;
+using System.IO;
+using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace MBASite.Controllers
 {
     [Authorize]
     public class QuestionnaireController : Controller
     {
-        QuestionnaireQuestions questions;
-        QuestionnaireAnswers answers;
-        
         /// <summary>
         /// Returns a view which allows the student to fill questionnaire
         /// </summary>
         /// <returns></returns>
         public ActionResult FillQuestionnaire()
         {
-            return View();
+            QuestionnaireAnswers questionnaire = new QuestionnaireAnswers();
+            return View(questionnaire);
         }
 
         /// <summary>
         /// Receives filled questionnaire from form
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="answers"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult FillQuestionnaire(int id)
+        public ActionResult FillQuestionnaire(QuestionnaireAnswers answers)
         {
-            // TO-DO
-            // Create a model for questionnaire
-            // Add [Serializable] attribute to model
-            // follow this link : http://stackoverflow.com/questions/16352879/write-list-of-objects-to-a-file
-            return RedirectToAction("Student", "Home");
+            var contents = JsonConvert.SerializeObject(answers);
+            string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
+            string uri = System.Web.Configuration.WebConfigurationManager.AppSettings["login"];
+            bool result;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = client.PostAsJsonAsync(uri, contents).Result;
+                string resultString = response.Content.ReadAsStringAsync().Result;
+                result = String.Equals(resultString, "true") ? true : false;
+            }
+            if(result)
+            {
+                return RedirectToAction("Student", "Home");
+            }
+            return View(answers);
         }
     }
 }

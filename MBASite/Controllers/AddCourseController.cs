@@ -36,6 +36,7 @@ namespace MBASite.Controllers
             bool added = ContactApi.PostToApi<Course>(course, "addCourse");
             if(added)
             {
+                ModelState.Clear();
                 StaticVariables.Courses.Add(course);
                 return View(new ViewModels.CourseInfo());
             }

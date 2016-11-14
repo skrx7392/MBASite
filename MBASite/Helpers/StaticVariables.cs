@@ -17,5 +17,6 @@ namespace MBASite.Helpers
         public static List<Student_TrainingStatus> TrainingStatuses;
         public static List<Student_AcademicStatus> AcademicStatuses;
         public static List<Training> Trainings;
+        public static List<Major> Majors;
     }
 }

@@ -38,6 +38,7 @@ namespace MBASite.Controllers
             bool added = ContactApi.PostToApi<UCMModerator>(details, "addAdvisor");
             if(added)
             {
+                ModelState.Clear();
                 StaticVariables.AdvisorDetails.Add(details);
                 return View(new AdvisorData());
             }
