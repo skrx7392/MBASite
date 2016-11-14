@@ -1,6 +1,6 @@
 ﻿
 @{
-//    @ViewBag.Title;
+    @ViewBag.Title;
 }
 
 <h2>Student</h2>
@@ -10,14 +10,11 @@
         <div class="col-md-offset-2 col-md-4">
             <button class="btn btn-success btn-lg" type="submit" onclick="location.href='@Url.Action("ChangePassword", "ChangePassword")'">Change Password</button>
         </div>
-        <div class="col-md-4">
-            <button class="btn btn-primary btn-lg" type="submit" onclick="location.href='@Url.Action("ChangePassword", "ChangePassword")'">Academic Code of Conduct</button>
-        </div>
     </div>
 </div>
 <div class="row">
     <div class="col-md-offset-2 col-md-4">
-        <button class="btn btn-success btn-lg" type="submit" onclick="location.href='@Url.Action("ChangePassword", "ChangePassword")'">Questionarrie</button>
+        <button class="btn btn-success btn-lg" type="submit" onclick="location.href='@Url.Action("FillQuestionnaire", "Questionnaire")'">Questionnaire</button>
     </div>
     <div class="col-md-4">
         <button class="btn btn-primary btn-lg" type="submit" onclick="location.href='@Url.Action("ViewStudentDetails", "ViewStudentDetails")'">View Student Details</button>

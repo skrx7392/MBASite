@@ -29,11 +29,15 @@ namespace MBASite.Controllers
         /// Receives  the form data to update the password
         /// </summary>
         /// <param name="newPassword"></param>
+        /// <param name="form">todo: describe form parameter on ChangePassword</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult ChangePassword(ChangePassword newPassword)
+        //public ActionResult ChangePassword(ChangePassword newPassword)
+        public ActionResult ChangePassword(FormCollection form)
         {
-            string oldPwd = PasswordGenerator.HashPassword(newPassword.OldPassword);
+            var oldPwd = form["OldPassword"];
+            var oldPwdHash = PasswordGenerator.HashPassword(oldPwd);
+            var newPwd = form["newPassword"];
             string userCategory = string.Empty;
             UCMUser user = new UCMUser();
             if(StaticVariables.Role.Equals("Student"))
@@ -46,16 +50,17 @@ namespace MBASite.Controllers
                 userCategory = "Advisor";
                 user = StaticVariables.AdvisorDetails.FirstOrDefault(p => p.Id == Convert.ToInt32(User.Identity.Name));
             }
-            if (oldPwd.Equals(user.Password))
+            if (oldPwdHash.Equals(user.Password))
             {
-                user.Password = newPassword.NewPassword;
+                var newPwdHash = PasswordGenerator.HashPassword(newPwd);
+                user.Password = newPwdHash;
                 bool updateStatus = ContactApi.PostToApi<UCMUser>(user, "updateUser");
                 if (updateStatus)
                 {
                     return RedirectToAction(userCategory, "Home");
                 }
             }
-            return View(newPassword);
+            return View();
         }
         
     }

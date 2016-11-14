@@ -35,6 +35,7 @@ namespace MBASite.Controllers
             bool status = ContactApi.PostToApi(program, "AddProgram");
             if(status)
             {
+                ModelState.Clear();
                 viewProgram = new ViewProgram();
             }
             return View(viewProgram);

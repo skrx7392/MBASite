@@ -34,7 +34,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CCode, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.CCode, new SelectList(MBASite.Helpers.StaticVariables.Programs, "Conc_Code", "Conc_Code", Model.CCode), " ", new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CCode, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -64,7 +64,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", MBASite.Helpers.StaticVariables.Role, "Home")
 </div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>

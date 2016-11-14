@@ -46,7 +46,7 @@ namespace MBASite.Controllers
             if(postStatus)
             {
                 await GenerateEmail(data, password);
-                data = new StudentData();
+                ModelState.Clear();
             }
             return View(data);
         }

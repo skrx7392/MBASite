@@ -12,7 +12,7 @@ namespace MBASite.ViewModels
         public string FirstName { get; set; }
         [DisplayName("Last Name")]
         public string LastName { get; set; }
-        [DisplayName("Concentration")]
+        [DisplayName("Password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [DisplayName("Concentration")]

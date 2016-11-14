@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using MBASite.Helpers;
 using MBASite.Models;
+using System.Net.Http;
 
 namespace MBASite.Controllers
 {
@@ -25,16 +26,30 @@ namespace MBASite.Controllers
             StaticVariables.AcademicStatuses = ContactApi.GetDataFromApi<Student_AcademicStatus>("getStudentAcademicStatus");
             ViewBag.Title = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == int.Parse(User.Identity.Name)).FirstName;
             UCMStudent student = StaticVariables.StudentDetails.FirstOrDefault(p => p.Id == int.Parse(User.Identity.Name));
-            //FillQuestionnaire
-            if (false)
-            {
+            bool questionnaireStatus = checkQuestionnaire(Convert.ToInt32(User.Identity.Name));
+            if (!questionnaireStatus)
                 return RedirectToAction("FillQuestionnaire", "Questionnaire");
-            }
             if (StaticVariables.TrainingStatuses.FirstOrDefault(p => p.Id == student.StudentTrainingStatusId).TrainingStatus.ToLower().Equals("Due".ToLower()))
             {
                 return RedirectToAction("AcademicCodeOfConduct");
             }
             return View();
+        }
+
+        private bool checkQuestionnaire(int id)
+        {
+            string url = System.Web.Configuration.WebConfigurationManager.AppSettings["baseUrl"];
+            string uri = url + System.Web.Configuration.WebConfigurationManager.AppSettings["checkquestionnaire"] + id.ToString();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = client.GetAsync(uri).Result;
+                string resultString = response.Content.ReadAsStringAsync().Result;
+                bool result = String.Equals(resultString, "true") ? true : false;
+                return result;
+            }
         }
 
         /// <summary>
@@ -69,6 +84,7 @@ namespace MBASite.Controllers
             StaticVariables.TrainingStatuses = ContactApi.GetDataFromApi<Student_TrainingStatus>("getStudentTrainingStatus");
             StaticVariables.Trainings = ContactApi.GetDataFromApi<Training>("getTrainingRepo");
             StaticVariables.AcademicStatuses = ContactApi.GetDataFromApi<Student_AcademicStatus>("getStudentAcademicStatus");
+            StaticVariables.Majors = ContactApi.GetDataFromApi<Major>("getMajors");
             ViewBag.Title = "Mr. Director";
             return View();
         }
